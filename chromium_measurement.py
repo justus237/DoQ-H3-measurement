@@ -15,7 +15,7 @@ except IndexError:
     )
     sys.exit(1)
 #need server certificate hash
-cert_hash = Path('cert_fingerprint.txt').read_text()
+cert_hash = Path('cert_fingerprint.txt').read_text().rstrip()
 print(cert_hash)
 
 web_perf_script = """
