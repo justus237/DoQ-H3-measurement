@@ -9,6 +9,7 @@ from pathlib import Path
 #need server ip
 try:
     server_ip = sys.argv[1]
+    print(server_ip)
 except IndexError:
     print(
         'Input params incomplete, need server IP address for host mapping'
