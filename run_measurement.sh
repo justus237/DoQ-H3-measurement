@@ -17,8 +17,8 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
     exit 2
 fi
 # stop systemd-resolved
-systemctl stop systemd-resolved
-systemctl disable systemd-resolved
+#systemctl stop systemd-resolved
+#systemctl disable systemd-resolved
 root_dir=$(pwd)
 coredns_path="../coredns"
 dnsproxy_path="../dnsproxy"
@@ -41,5 +41,5 @@ echo "running web performance measurement"
 python3 chromium_measurement.py $h3_server_ip
 
 # restart systemd-resolved
-systemctl enable systemd-resolved
-systemctl start systemd-resolved
+#systemctl enable systemd-resolved
+#systemctl start systemd-resolved
