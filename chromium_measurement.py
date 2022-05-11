@@ -4,7 +4,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as chromeOptions
 from selenium.webdriver.support.ui import WebDriverWait
 import sys
-from pathlib import Path
 #setup
 #need server ip
 try:
@@ -16,7 +15,8 @@ except IndexError:
     )
     sys.exit(1)
 #need server certificate hash
-cert_hash = Path('cert_fingerprint.txt').read_text().rstrip()
+with open('cert_fingerprint.txt', 'r') as f:
+	cert_hash = f.read().rstrip()
 print(cert_hash)
 
 web_perf_script = """
@@ -82,9 +82,8 @@ while driver.execute_script("return document.readyState;") != "complete":
 #time.sleep(10)
 performance_metrics = driver.execute_script(web_perf_script)
 print(performance_metrics)
-#with open('/tmp/chrome_session_cache.txt', 'r') as f:
-#    print(f.read())
-print(Path('/tmp/chrome_session_cache.txt').read_text())
+with open('/tmp/chrome_session_cache.txt', 'r') as f:
+    print(f.read())
 #sleep to wait for session timeout, causing 0-rtt to kick in
 time.sleep(30)
 driver.refresh()
