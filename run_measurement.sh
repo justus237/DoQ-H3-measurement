@@ -62,28 +62,30 @@ dns_server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
 
 
 
-# echo "starting dnsproxy with DoH upstream"
-# ip netns exec $namespace1 ./dnsproxy -u "https://${dns_server_ip}:443/dns-query" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
-# cd $root_dir
-# echo "DoH: running dig"
-# h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
-# echo "dig result: www.example.org IN A ${h3_server_ip}"
+echo "starting dnsproxy with DoH upstream"
+ip netns exec $namespace1 ./dnsproxy -u "https://${dns_server_ip}:443/dns-query" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
+dnsproxyPID=$!
+cd $root_dir
+echo "DoH: running dig"
+h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
+echo "dig result: www.example.org IN A ${h3_server_ip}"
 
-# dnsproxyPID=$(ps -e | pgrep dnsproxy)
-# cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh.log
-# echo -n > $root_dir/dnsproxy.log
-# echo "killing dnsproxy"
-# kill -SIGTERM $dnsproxyPID
+#dnsproxyPID=$(ps -e | pgrep dnsproxy)
+cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh.log
+echo -n > $root_dir/dnsproxy.log
+echo "killing dnsproxy"
+kill -SIGTERM $dnsproxyPID
 
 
 echo "starting dnsproxy with DoUDP upstream"
 ip netns exec $namespace1 ./dnsproxy -u "${dns_server_ip}:53" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
+dnsproxyPID=$!
 cd $root_dir
 echo "DoUDP: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org IN A ${h3_server_ip}"
 
-dnsproxyPID=$(ps -e | pgrep dnsproxy)
+#dnsproxyPID=$(ps -e | pgrep dnsproxy)
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp.log
 echo -n > $root_dir/dnsproxy.log
 echo "killing dnsproxy"
