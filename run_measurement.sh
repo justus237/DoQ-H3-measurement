@@ -105,7 +105,7 @@ echo "killing dnsproxy"
 kill -SIGTERM $dnsproxyPID
 
 
-
+cd $root_dir
 echo "running web performance measurement"
 ip netns exec $namespace1 python3 chromium_measurement.py $h3_server_ip $msmID
 
