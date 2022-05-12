@@ -58,9 +58,9 @@ echo "killing dnsproxy"
 kill -SIGTERM $dnsproxyPID
 
 echo "DoQ warmup metrics"
-grep '^metrics:' $root_dir/dnsproxy-doq-warmup.log
+grep '^metrics:DoQ exchange' $root_dir/dnsproxy-doq-warmup.log
 echo "DoQ metrics"
-grep --text '^metrics:' $root_dir/dnsproxy-doq.log
+grep --text '^metrics:DoQ exchange' $root_dir/dnsproxy-doq.log
 
 # echo "killing coredns"
 # cp $root_dir/coredns.log $root_dir/coredns-doh.log
@@ -88,7 +88,7 @@ kill -SIGTERM $dnsproxyPID
 
 
 echo "DoH metrics"
-grep '^metrics:' $root_dir/dnsproxy-doh.log
+grep '^metrics:DoH exchange' $root_dir/dnsproxy-doh.log
 
 # echo "killing coredns"
 # cp $root_dir/coredns.log $root_dir/coredns-doh.log
@@ -114,7 +114,7 @@ echo "killing dnsproxy"
 kill -SIGTERM $dnsproxyPID
 
 echo "DoUDP metrics"
-grep '^metrics:' $root_dir/dnsproxy-doudp.log
+grep '^metrics:DoUDP exchange' $root_dir/dnsproxy-doudp.log
 
 
 cd $root_dir
