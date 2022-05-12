@@ -29,7 +29,7 @@ chrome_path="../chromium"
 cd $coredns_path
 echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
 ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
-
+corednsPID=$!
 #dnsproxy
 cd $root_dir
 cd $dnsproxy_path
@@ -75,6 +75,15 @@ cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh.log
 echo -n > $root_dir/dnsproxy.log
 echo "killing dnsproxy"
 kill -SIGTERM $dnsproxyPID
+
+echo "killing coredns"
+cp $root_dir/coredns.log $root_dir/coredns-doh.log
+echo -n > $root_dir/coredns.log
+kill -SIGTERM $corednsPID
+cd $coredns_path
+echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
+ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
+corednsPID=$!
 
 
 echo "starting dnsproxy with DoUDP upstream"
