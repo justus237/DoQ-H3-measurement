@@ -18,8 +18,8 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
     exit 2
 fi
 
-rtt_half="5ms"
-rtt_var="0.5ms"
+rtt_half="19ms"
+rtt_var="0.3ms"
 packetloss="0.4%"
 download="150.0mbit"
 upload="17.9mbit"
