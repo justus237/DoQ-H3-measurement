@@ -60,7 +60,7 @@ kill -SIGTERM $dnsproxyPID
 echo "DoQ warmup metrics"
 grep '^metrics:' $root_dir/dnsproxy-doq-warmup.log
 echo "DoQ metrics"
-grep '^metrics:' $root_dir/dnsproxy-doq.log
+grep --text '^metrics:' $root_dir/dnsproxy-doq.log
 
 # echo "killing coredns"
 # cp $root_dir/coredns.log $root_dir/coredns-doh.log
