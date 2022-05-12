@@ -8,7 +8,7 @@ import sys
 #need server ip
 try:
     server_ip = sys.argv[1]
-    print(server_ip)
+    msm_id = sys.argv[2]
 except IndexError:
     print(
         'Input params incomplete, need server IP address for host mapping'
@@ -17,7 +17,7 @@ except IndexError:
 #need server certificate hash
 with open('cert_fingerprint.txt', 'r') as f:
 	cert_hash = f.read().rstrip()
-print(cert_hash)
+
 
 web_perf_script = """
             // Get performance and paint entries
@@ -48,29 +48,41 @@ web_perf_script = """
             """
 timestamp = datetime.now()
 chrome_options = chromeOptions()
+#required to run as sudo
 chrome_options.add_argument("--no-sandbox")
+#need x forwarding ($DISPLAY) if commented out
 chrome_options.add_argument('--headless')
+#capture netlogs just in case, use timestamp for file name for now
 chrome_options.add_argument("--net-log-capture-mode=Everything")
 chrome_options.add_argument('--log-net-log=/home/quic_net03/chromium/chrome-netlog-'+timestamp.strftime("%y-%m-%d-%H:%M:%S")+'.json')
+
 chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument(
-    "--autoplay-policy=no-user-gesture-required")
-#coredns cert
-#chrome_options.add_argument('--ignore-certificate-errors-spki-list=RSu3xgjFRjm1T5iTlXhHFzneE8mSyYaMNNoLse+kvpc=')
-#epoll_quic_server cert
-#chrome_options.add_argument('--ignore-certificate-errors-spki-list=Y0DT195ejww1gZ+evc5QBpU5sB376m1DU/g+lDqBLcw=')
+#not used anymore but was needed for older youtube measurements
+chrome_options.add_argument("--autoplay-policy=no-user-gesture-required")
+
+#allows us to skip any CA setup
 chrome_options.add_argument('--ignore-certificate-errors-spki-list='+cert_hash)
+#need to fix it to IETF QUIC v1 because of client session cache serialization
 chrome_options.add_argument('--quic-version=QUIC_VERSION_IETF_RFC_V1')
+#this is probably not needed
 chrome_options.add_argument('--ignore-urlfetcher-cert-requests')
+#take the result we got from name resolution
+#if you put quotes anywhere inside this one, it wont pass the argument properly when using selenium
 chrome_options.add_argument("--host-resolver-rules=MAP www.example.org:443 "+server_ip+":6121")
+#disable http cache so that the 0-rtt reload actually fetches the complete website again
 chrome_options.add_argument('--disable-http-cache')
+#force quic on the website under test
+#alternative: '--origin-to-force-quic-on=*' (the star requires quotes when using this option on the command line)
 chrome_options.add_argument('--origin-to-force-quic-on=www.example.org:443')
+#enable quic
 chrome_options.add_argument('--enable-quic')
+#write key log for wireshark later on
 chrome_options.add_argument('--ssl-key-log-file=/home/quic_net03/chromium/ssl_key_log.txt')
+
 chrome_options.binary_location = "/home/quic_net03/chromium/src/out/Default/chrome"
 driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net03/chromium/src/out/Default/chromedriver')
-#executable_path='src/out/Default/chromedriver', options=chrome_options)
-print(driver.capabilities['browserVersion'])
+
+print(msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
 driver.set_page_load_timeout(30)
 #driver.get("https://www.google.com")
 #driver.get("https://blog.cloudflare.com/content/images/2019/01/quiche-1.png")

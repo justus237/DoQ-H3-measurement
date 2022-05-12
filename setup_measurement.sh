@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 #network namespaces require sudo
 if [[ $EUID -ne 0 ]]; then
     echo "$0 is not running as root. Try using sudo."
@@ -74,19 +75,43 @@ source vars
 
 echo "generating Corefile"
 server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
-echo "quic://.:784 {
-        bind ${server_ip}
-        tls localhost.crt localhost.key {
-                session_ticket_key session_ticket.key
-        }
-        hosts {
-                ${server_ip} www.example.org
-                reload 1h
-        }
-        h3server /tmp/quic-data/www.example.org/ ${server_ip}:6121
-        errors
-        log
-        debug
+echo "quic://.:8853 {
+  bind ${server_ip}
+  tls localhost.crt localhost.key {
+    session_ticket_key session_ticket.key
+  }
+  hosts {
+    ${server_ip} www.example.org
+    reload 1h
+  }
+  h3server /tmp/quic-data/www.example.org/ ${server_ip}:6121
+  errors
+  log
+  debug
+}
+.:53 {
+  bind ${server_ip}
+	hosts {
+    ${server_ip} www.example.org
+    reload 1h
+  }
+	errors
+	log
+	debug
+}
+
+https://.:443 {
+  bind ${server_ip}
+	tls localhost.crt localhost.key {
+    session_ticket_key session_ticket.key
+  }
+	hosts {
+    ${server_ip} www.example.org
+    reload 1h
+  }
+	errors
+	log
+	debug
 }" | tee "${coredns_path}/Corefile"
 
 
