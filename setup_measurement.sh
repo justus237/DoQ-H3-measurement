@@ -135,4 +135,4 @@ ip netns exec $namespace1 ip link set lo up
 echo "setting up netns rslv.conf"
 mkdir -p /etc/netns/{$namespace1,$namespace2}
 touch /etc/netns/$namespace{1,2}/resolv.conf
-#echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
+echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
