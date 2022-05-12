@@ -57,6 +57,11 @@ echo -n > $root_dir/dnsproxy.log
 echo "killing dnsproxy"
 kill -SIGTERM $dnsproxyPID
 
+echo "DoQ warmup metrics"
+echo $(cat $root_dir/dnsproxy-doq-warmup.log | grep '^metrics:')
+echo "DoQ metrics"
+echo $(cat $root_dir/dnsproxy-doq.log | grep '^metrics:')
+
 # echo "killing coredns"
 # cp $root_dir/coredns.log $root_dir/coredns-doh.log
 # echo -n > $root_dir/coredns.log
@@ -111,7 +116,6 @@ ip netns exec $namespace1 python3 chromium_measurement.py $h3_server_ip $msmID
 
 
 kill -SIGTERM $corednsPID
-kill -SIGTERM $dnsproxyPID
 # restart systemd-resolved
 #systemctl enable systemd-resolved
 #systemctl start systemd-resolved
