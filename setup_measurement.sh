@@ -89,29 +89,30 @@ echo "quic://.:8853 {
   log
   debug
 }
+
 .:53 {
   bind ${server_ip}
-	hosts {
+  hosts {
     ${server_ip} www.example.org
     reload 1h
   }
-	errors
-	log
-	debug
+  errors
+  log
+  debug
 }
 
 https://.:443 {
   bind ${server_ip}
-	tls localhost.crt localhost.key {
+  tls localhost.crt localhost.key {
     session_ticket_key session_ticket.key
   }
-	hosts {
+  hosts {
     ${server_ip} www.example.org
     reload 1h
   }
-	errors
-	log
-	debug
+  errors
+  log
+  debug
 }" | tee "${coredns_path}/Corefile"
 
 
