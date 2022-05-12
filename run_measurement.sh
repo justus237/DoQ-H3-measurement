@@ -35,31 +35,38 @@ cd $root_dir
 cd $dnsproxy_path
 dns_server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
 
-# echo "starting dnsproxy with DoQ upstream"
-# ip netns exec $namespace1 ./dnsproxy -u "quic://${dns_server_ip}:8853" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
-# cd $root_dir
-# echo "DoQ: running dig"
-# h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
-# echo "dig result: www.example.org IN A ${h3_server_ip}"
+echo "starting dnsproxy with DoQ upstream"
+ip netns exec $namespace1 ./dnsproxy -u "quic://${dns_server_ip}:8853" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
+cd $root_dir
+echo "DoQ: running dig"
+h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
+echo "dig result: www.example.org IN A ${h3_server_ip}"
 
-# sleep 1
-# echo "DoQ: moving log file and clearing it for session resumption"
-# cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq-warmup.log
-# echo -n > $root_dir/dnsproxy.log
-# echo "DoQ: sending reset to dnsproxy for session resumption"
-# dnsproxyPID=$(ps -e | pgrep dnsproxy)
-# kill -SIGUSR1 $dnsproxyPID
+sleep 1
+echo "DoQ: moving log file and clearing it for session resumption"
+cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq-warmup.log
+echo -n > $root_dir/dnsproxy.log
+echo "DoQ: sending reset to dnsproxy for session resumption"
+dnsproxyPID=$(ps -e | pgrep dnsproxy)
+kill -SIGUSR1 $dnsproxyPID
 
-# echo "DoQ: running dig with session resumption"
-# h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
-# echo "dig result: www.example.org IN A ${h3_server_ip}"
+echo "DoQ: running dig with session resumption"
+h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
+echo "dig result: www.example.org IN A ${h3_server_ip}"
 
-# cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq.log
-# echo -n > $root_dir/dnsproxy.log
-# echo "killing dnsproxy"
-# kill -SIGTERM $dnsproxyPID
+cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq.log
+echo -n > $root_dir/dnsproxy.log
+echo "killing dnsproxy"
+kill -SIGTERM $dnsproxyPID
 
-
+echo "killing coredns"
+cp $root_dir/coredns.log $root_dir/coredns-doh.log
+echo -n > $root_dir/coredns.log
+kill -SIGTERM $corednsPID
+cd $coredns_path
+echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
+ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
+corednsPID=$!
 
 
 echo "starting dnsproxy with DoH upstream"
@@ -86,19 +93,19 @@ ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
 corednsPID=$!
 
 
-echo "starting dnsproxy with DoUDP upstream"
-ip netns exec $namespace1 ./dnsproxy -u "${dns_server_ip}:53" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
-dnsproxyPID=$!
-cd $root_dir
-echo "DoUDP: running dig"
-h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
-echo "dig result: www.example.org IN A ${h3_server_ip}"
+# echo "starting dnsproxy with DoUDP upstream"
+# ip netns exec $namespace1 ./dnsproxy -u "${dns_server_ip}:53" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
+# dnsproxyPID=$!
+# cd $root_dir
+# echo "DoUDP: running dig"
+# h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
+# echo "dig result: www.example.org IN A ${h3_server_ip}"
 
-#dnsproxyPID=$(ps -e | pgrep dnsproxy)
-cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp.log
-echo -n > $root_dir/dnsproxy.log
-echo "killing dnsproxy"
-kill -SIGTERM $dnsproxyPID
+# #dnsproxyPID=$(ps -e | pgrep dnsproxy)
+# cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp.log
+# echo -n > $root_dir/dnsproxy.log
+# echo "killing dnsproxy"
+# kill -SIGTERM $dnsproxyPID
 
 
 
