@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 #some values taken from https://github.com/noise-lab/dns-measurement-suite/blob/cdf17805271918a5b6d06121a74bf9fb430684d7/src/measure/tc.4g.sh
 if [[ $EUID -ne 0 ]]; then
     echo "$0 is not running as root. Try using sudo."
