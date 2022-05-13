@@ -18,6 +18,7 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
 fi
 msmID=$(uuidgen)
 timestamp="`date "+%Y-%m-%d_%H_%M_%S"`"
+echo $experiment_type
 # stop systemd-resolved
 #systemctl stop systemd-resolved
 #systemctl disable systemd-resolved
