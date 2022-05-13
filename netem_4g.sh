@@ -29,8 +29,8 @@ peak_download="50Mbit"
 upload="8.8Mbit"
 peak_upload="10Mbit"
 # following https://unix.stackexchange.com/a/100797, upload burst should be 4_400B, and download 14_550B
-upload_burst="5000b"
-download_burst="15000b"
+upload_burst="10000b"
+download_burst="30000b"
 
 #ip netns exec $namespace1 tc qdisc delete dev ptp-$interface1 root
 #ip netns exec $namespace2 tc qdisc delete dev ptp-$interface2 root
