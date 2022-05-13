@@ -106,7 +106,8 @@ def run_web_performance():
         #while driver.execute_script("return document.readyState;") != "complete":
         #    time.sleep(1)
         #https://stackoverflow.com/a/14901494
-        WebDriverWait(driver, 20, 5).until(lambda x: x.execute_script('return document.readyState') == 'complete')
+        WebDriverWait(driver, 20, 0.1).until(lambda x: x.execute_script('return document.readyState') == 'complete')
+        time.sleep(10)
         performance_metrics_warmup = driver.execute_script(web_perf_script)
         print(performance_metrics_warmup)
     except selenium.common.exceptions.WebDriverException as e:
@@ -124,7 +125,8 @@ def run_web_performance():
         driver.refresh()
         #while driver.execute_script("return document.readyState;") != "complete":
         #        time.sleep(1)
-        WebDriverWait(driver, 20, 5).until(lambda x: x.execute_script('return document.readyState') == 'complete')
+        WebDriverWait(driver, 20, 0.1).until(lambda x: x.execute_script('return document.readyState') == 'complete')
+        time.sleep(10)
         performance_metrics = driver.execute_script(web_perf_script)
         print(performance_metrics)
     except selenium.common.exceptions.WebDriverException as e:
