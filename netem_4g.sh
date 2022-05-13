@@ -34,7 +34,7 @@ fi
 # download_burst="30000b"
 
 #~network link conditioner in macOS
-rtt_half="55"
+rtt_half="55ms"
 rtt_var="0.5ms"
 packetloss="0%"
 download="50Mbit"
