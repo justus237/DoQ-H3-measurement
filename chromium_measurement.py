@@ -91,13 +91,13 @@ def get_chrome_options():
     #write key log for wireshark later on
     chrome_options.add_argument('--ssl-key-log-file=ssl_key_log.txt')
 
-    #chrome_options.binary_location = "/home/quic_net03/chromium/src/out/Default/chrome"
+    chrome_options.binary_location = "/home/quic_net03/chromium/src/out/Default/chrome"
     return chrome_options
 
 
 def run_web_performance():
     chrome_options = get_chrome_options()
-    driver = webdriver.Chrome(options=chrome_options)#, executable_path='/home/quic_net03/chromium/src/out/Default/chromedriver')
+    driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net03/chromium/src/out/Default/chromedriver')
 
     print(timestamp+", "+experiment_type+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(30)
@@ -107,7 +107,7 @@ def run_web_performance():
         #    time.sleep(1)
         #https://stackoverflow.com/a/14901494
         WebDriverWait(driver, 20, 0.1).until(lambda x: x.execute_script('return document.readyState') == 'complete')
-        #time.sleep(10)
+        time.sleep(10)
         performance_metrics_warmup = driver.execute_script(web_perf_script)
         print(performance_metrics_warmup)
     except selenium.common.exceptions.WebDriverException as e:
@@ -126,7 +126,7 @@ def run_web_performance():
         #while driver.execute_script("return document.readyState;") != "complete":
         #        time.sleep(1)
         WebDriverWait(driver, 20, 0.1).until(lambda x: x.execute_script('return document.readyState') == 'complete')
-        #time.sleep(10)
+        time.sleep(10)
         performance_metrics = driver.execute_script(web_perf_script)
         print(performance_metrics)
     except selenium.common.exceptions.WebDriverException as e:
