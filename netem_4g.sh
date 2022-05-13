@@ -36,9 +36,9 @@ fi
 #~network link conditioner in macOS
 rtt_half="55ms"
 rtt_var="0.5ms"
-packetloss="0.5%"
-packetloss_half="0.25%"
-packetloss_dec="0.0005"
+packetloss="0.2%"
+packetloss_half="0.1%"
+packetloss_dec="0.001"
 download="50Mbit"
 peak_download="50Mbit"
 upload="10Mbit"
