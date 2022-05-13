@@ -30,8 +30,8 @@ upload="8.8Mbit"
 upload_burst="5000b"
 download_burst="15000b"
 
-ip netns exec $namespace1 tc qdisc delete dev ptp-$interface1 root
-ip netns exec $namespace2 tc qdisc delete dev ptp-$interface2 root
+#ip netns exec $namespace1 tc qdisc delete dev ptp-$interface1 root
+#ip netns exec $namespace2 tc qdisc delete dev ptp-$interface2 root
 
 
 #ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root netem delay $rtt_half $rtt_var loss $packetloss rate $upload
