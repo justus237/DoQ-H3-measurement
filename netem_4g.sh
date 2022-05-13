@@ -25,7 +25,9 @@ rtt_half="23.6ms"
 rtt_var="0.5ms"
 packetloss="0.5%"
 download="29.1Mbit"
+peak_download="50Mbit"
 upload="8.8Mbit"
+peak_upload="10Mbit"
 # following https://unix.stackexchange.com/a/100797, upload burst should be 4_400B, and download 14_550B
 upload_burst="5000b"
 download_burst="15000b"
@@ -35,9 +37,9 @@ download_burst="15000b"
 
 
 #ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root netem delay $rtt_half $rtt_var loss $packetloss rate $upload
-ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root handle 1: tbf rate $upload burst $upload_burst
+ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root handle 1: tbf rate $upload burst $upload_burst latency 50ms peakrate $peak_upload
 ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 parent 1: handle 10: netem delay $rtt_half $rtt_var loss $packetloss
 
 #ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root netem delay $rtt_half $rtt_var loss $packetloss rate $download
-ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root handle 1: tbf rate $download burst $download_burst
+ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root handle 1: tbf rate $download burst $download_burst latency 50ms peakrate $peak_download
 ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 parent 1: handle 10: netem delay $rtt_half $rtt_var loss $packetloss
