@@ -60,6 +60,6 @@ ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 parent 1: netem delay
 
 #ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root netem delay $rtt_half $rtt_var loss $packetloss rate $download
 ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root handle 1: tbf rate $download burst $download_burst latency 1000ms
-ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 parent 1: netem delay $rtt_half $rtt_var loss $packetloss_half
+ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 parent 1: netem delay $rtt_half $rtt_var
 #packet loss simulation of netem is kinda broken, use iptables instead?
 #ip netns exec $namespace2 iptables -s $ip_address1 -A INPUT -m statistic --mode random --probability $packetloss_dec -j DROP
