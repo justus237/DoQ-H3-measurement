@@ -22,7 +22,8 @@ fi
 #https://www.opensignal.com/reports/2020/01/usa/mobile-network-experience -> best of all
 # down is ATT, up is TM, latency is ATT
 rtt_half="23.6ms"
-rtt_var="0.5ms"
+rtt_full="47.2ms"
+rtt_var="1ms"
 packetloss="0.5%"
 download="29.1Mbit"
 peak_download="50Mbit"
@@ -38,7 +39,7 @@ download_burst="30000b"
 
 #ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root netem delay $rtt_half $rtt_var loss $packetloss rate $upload
 ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root handle 1: tbf rate $upload burst $upload_burst latency 1000ms
-ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 parent 1: netem delay $rtt_half $rtt_var loss $packetloss
+ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 parent 1: netem delay $rtt_full $rtt_var loss $packetloss
 
 #ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root netem delay $rtt_half $rtt_var loss $packetloss rate $download
 #ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root handle 1: tbf rate $download burst $download_burst latency 1000ms
