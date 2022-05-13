@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+#set -ex
 if [[ $EUID -ne 0 ]]; then
     echo "$0 is not running as root. Try using sudo."
     exit 2
@@ -32,6 +32,7 @@ ip netns exec $namespace1 tcpdump -G 3600 -i ptp-veth-client -w $root_dir/client
 tcpdumpclientPID=$!
 ip netns exec $namespace2 tcpdump -G 3600 -i ptp-veth-server -w $root_dir/server-${timestamp}-${experiment_type}-${msmID}.pcap &
 tcpdumpserverPID=$!
+sleep 5
 
 cd $root_dir && cd $coredns_path
 echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
