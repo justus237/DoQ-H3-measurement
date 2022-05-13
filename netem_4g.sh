@@ -36,7 +36,9 @@ fi
 #~network link conditioner in macOS
 rtt_half="55ms"
 rtt_var="0.5ms"
-packetloss="0%"
+packetloss="0.5%"
+packetloss_half="0.25%"
+packetloss_dec="0.005"
 download="50Mbit"
 peak_download="50Mbit"
 upload="10Mbit"
@@ -55,6 +57,9 @@ download_burst="50kb"
 ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root handle 1: tbf rate $upload burst $upload_burst latency 1000ms
 ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 parent 1: netem delay $rtt_half $rtt_var loss $packetloss
 
+
 #ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root netem delay $rtt_half $rtt_var loss $packetloss rate $download
 ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root handle 1: tbf rate $download burst $download_burst latency 1000ms
-ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 parent 1: netem delay $rtt_half $rtt_var loss $packetloss
+ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 parent 1: netem delay $rtt_half $rtt_var
+#packet loss simulation of netem is kinda broken, use iptables instead?
+#ip netns exec $namespace2 iptables -s $ip_address1 -A INPUT -m statistic --mode random --probability $packetloss_dec -j DROP
