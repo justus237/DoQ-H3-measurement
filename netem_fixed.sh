@@ -22,7 +22,7 @@ rtt_half="5ms"
 rtt_var="0.5ms"
 packetloss="0.1%"
 download="100mbit"
-upload="50mbit"
+upload="10mbit"
 
 
 sudo ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root netem delay $rtt_half $rtt_var loss $packetloss rate $upload
