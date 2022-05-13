@@ -27,7 +27,7 @@ measurement_elements_web_perf = (
     'domContentLoadedEventEnd', 'domContentLoadedEventStart', 'domInteractive', 'domainLookupEnd', 'domainLookupStart',
     'duration', 'encodedBodySize', 'decodedBodySize', 'transferSize', 'fetchStart', 'loadEventEnd', 'loadEventStart',
     'requestStart', 'responseEnd', 'responseStart', 'secureConnectionStart', 'startTime', 'firstPaint',
-    'firstContentfulPaint', 'nextHopProtocol', 'redirectStart', 'redirectEnd', 'redirectCount', 'timeOrigin', 'is_warmup')
+    'firstContentfulPaint', 'nextHopProtocol', 'redirectStart', 'redirectEnd', 'redirectCount', 'timeOrigin', 'is_warmup', 'domain_name')
 
 web_perf_script = """
             // Get performance and paint entries
@@ -198,6 +198,7 @@ def create_web_performance_table():
             redirectCount integer,
             timeOrigin datetime,
             is_warmup integer,
+            domain_name string,
             FOREIGN KEY (msm_id) REFERENCES measurements(msm_id)
         );
         """)
@@ -224,6 +225,7 @@ def create_lookups_table():
 def insert_web_performance(performance, is_warmup):
     performance['msm_id'] = msm_id
     performance['is_warmup'] = is_warmup
+    performance['domain_name'] = performance['name']
     # insert into database
     cursor.execute(f"""
     INSERT INTO web_performance_metrics VALUES ({(len(measurement_elements_web_perf) - 1) * '?,'}?);
