@@ -19,6 +19,13 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
     exit 2
 fi
 
+if [ $experiment_type != "default" ]; then
+    ip netns exec $namespace1 tc qdisc delete dev ptp-$interface1 root
+    ip netns exec $namespace2 tc qdisc delete dev ptp-$interface2 root
+fi
+
+
+
 echo "experiment_type=4g" >> vars
 
 # #https://www.opensignal.com/reports/2020/01/usa/mobile-network-experience -> best of all
@@ -49,8 +56,7 @@ download_burst="256kb"
 
 
 
-#ip netns exec $namespace1 tc qdisc delete dev ptp-$interface1 root
-#ip netns exec $namespace2 tc qdisc delete dev ptp-$interface2 root
+
 
 
 #ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root netem delay $rtt_half $rtt_var loss $packetloss rate $upload

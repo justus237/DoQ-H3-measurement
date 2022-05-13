@@ -18,6 +18,11 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
     exit 2
 fi
 
+if [ $experiment_type != "default" ]; then
+    ip netns exec $namespace1 tc qdisc delete dev ptp-$interface1 root
+    ip netns exec $namespace2 tc qdisc delete dev ptp-$interface2 root
+fi
+
 echo "experiment_type=5g" >> vars
 
 rtt_half="20.5ms"

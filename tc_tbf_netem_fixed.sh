@@ -18,6 +18,11 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
     exit 2
 fi
 
+if [ $experiment_type != "default" ]; then
+    ip netns exec $namespace1 tc qdisc delete dev ptp-$interface1 root
+    ip netns exec $namespace2 tc qdisc delete dev ptp-$interface2 root
+fi
+
 echo "experiment_type=fixed" >> vars
 
 #ATT dsl is 100/20, DTAG is 100/40 -> take middle ground for upload?
