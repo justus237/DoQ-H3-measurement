@@ -198,7 +198,7 @@ def create_web_performance_table():
             redirectCount integer,
             timeOrigin datetime,
             is_warmup integer,
-            PRIMARY KEY (msm_id)
+            FOREIGN KEY (msm_id) REFERENCES measurements(msm_id)
         );
         """)
     db.commit()
