@@ -334,6 +334,6 @@ create_web_performance_table()
 create_dns_metrics_table()
 create_lookups_table()
 
-
+run_web_performance()
 
 db.close()
