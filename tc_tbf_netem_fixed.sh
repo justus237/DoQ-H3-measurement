@@ -17,6 +17,9 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
     echo "Could not find network namespace ${namespace2}"
     exit 2
 fi
+
+echo "experiment_type=fixed" >> vars
+
 #ATT dsl is 100/20, DTAG is 100/40 -> take middle ground for upload?
 rtt_half="5ms"
 rtt_var="0.1ms"

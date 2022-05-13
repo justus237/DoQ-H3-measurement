@@ -17,6 +17,7 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
     exit 2
 fi
 msmID=$(uuidgen)
+timestamp="`date "+%Y-%m-%d_%H_%M_%S"`"
 # stop systemd-resolved
 #systemctl stop systemd-resolved
 #systemctl disable systemd-resolved
@@ -25,6 +26,10 @@ coredns_path="../coredns"
 dnsproxy_path="../dnsproxy"
 chrome_path="../chromium"
 
+ip netns exec $namespace1 tcpdump -G 3600 -i ptp-veth-client -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
+tcpdumpclientPID=$!
+ip netns exec $namespace2 tcpdump -G 3600 -i ptp-veth-server -w $root_dir/server-${timestamp}-${experiment_type}-${msmID}.pcap &
+tcpdumpserverPID=$!
 
 cd $root_dir && cd $coredns_path
 echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
@@ -119,10 +124,13 @@ grep '^metrics:DoUDP exchange' $root_dir/dnsproxy-doudp.log
 
 cd $root_dir
 echo "running web performance measurement"
-ip netns exec $namespace1 python3 chromium_measurement.py $h3_server_ip $msmID
+ip netns exec $namespace1 python3 chromium_measurement.py $h3_server_ip $msmID $timestamp $experiment_type
 
 
 kill -SIGTERM $corednsPID
+
+kill -SIGINT $tcpdumpclientPID
+kill -SIGINT $tcpdumpserverPID
 # restart systemd-resolved
 #systemctl enable systemd-resolved
 #systemctl start systemd-resolved

@@ -18,6 +18,8 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
     exit 2
 fi
 
+echo "experiment_type=5g" >> vars
+
 rtt_half="20.5ms"
 rtt_var="0.3ms"
 packetloss="0.01%"

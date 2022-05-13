@@ -52,6 +52,7 @@ ip_address1="10.0.0.1/24"
 ip_address2='10.0.0.2/24'
 interface1=veth-client
 interface2=veth-server
+experiment_type=default
 EOF
 
 

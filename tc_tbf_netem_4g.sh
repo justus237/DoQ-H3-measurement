@@ -19,6 +19,8 @@ if [ ! -e /var/run/netns/${namespace2} ]; then
     exit 2
 fi
 
+echo "experiment_type=4g" >> vars
+
 # #https://www.opensignal.com/reports/2020/01/usa/mobile-network-experience -> best of all
 # # down is ATT, up is TM, latency is ATT
 # rtt_half="23.6ms"
