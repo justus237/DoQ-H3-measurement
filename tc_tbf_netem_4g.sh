@@ -56,6 +56,7 @@ upload_burst="256kb"
 download_burst="256kb"
 
 
+rtt_half="23.6ms"
 
 
 
