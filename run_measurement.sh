@@ -9,11 +9,11 @@ if [ ! -f vars ]; then
     exit 2
 fi
 source vars
-if [ ! -e /var/run/netns/${namespace1} ]; then
+if [[ ! -e /var/run/netns/${namespace1} ]]; then
     echo "Could not find network namespace ${namespace1}"
     exit 2
 fi
-if [ ! -e /var/run/netns/${namespace2} ]; then
+if [[ ! -e /var/run/netns/${namespace2} ]]; then
     echo "Could not find network namespace ${namespace2}"
     exit 2
 fi
@@ -49,7 +49,7 @@ ip netns exec $namespace1 ./dnsproxy -u "quic://${dns_server_ip}:8853" -v --inse
 echo "DoQ: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
-if [ $h3_server_ip != $server_ip ]; then
+if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoQ_warmup: ${h3_server_ip}"
 fi
 
@@ -64,7 +64,7 @@ kill -SIGUSR1 $dnsproxyPID
 echo "DoQ: running dig with session resumption"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
-if [ $h3_server_ip != $server_ip ]; then
+if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoQ: ${h3_server_ip}"
 fi
 
@@ -95,7 +95,7 @@ dnsproxyPID=$!
 echo "DoH: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
-if [ $h3_server_ip != $server_ip ]; then
+if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoH: ${h3_server_ip}"
 fi
 
@@ -125,7 +125,7 @@ dnsproxyPID=$!
 echo "DoUDP: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
-if [ $h3_server_ip != $server_ip ]; then
+if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoUDP: ${h3_server_ip}"
 fi
 
@@ -139,14 +139,14 @@ echo "DoUDP metrics"
 grep '^metrics:DoUDP exchange' $root_dir/dnsproxy-doudp.log
 
 
-if [ $error != "" ]; then
+if [[ $error != "" ]]; then
   error="${error:1}"
 else
   error="none"
 fi
 
 # remove dnsproxy session cache
-if [ -f /tmp/chrome_session_cache.txt ]; then
+if [[ -f /tmp/chrome_session_cache.txt ]]; then
   echo "removing old chrome client session cache file"
   rm /tmp/chrome_session_cache.txt
 fi

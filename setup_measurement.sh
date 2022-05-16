@@ -15,15 +15,15 @@ sysctl -w net.ipv6.conf.lo.disable_ipv6=1
 
 # https://www.redhat.com/sysadmin/net-namespaces
 echo "cleaning up any old leftover data, setting up new vars"
-if [ -f vars ]; then
+if [[ -f vars ]]; then
   echo "found old vars file, killing any processes running in old namespaces and deleting the namsepaces themselves"
   source vars
-  if [ -e /var/run/netns/${namespace1} ]; then
+  if [[ -e /var/run/netns/${namespace1} ]]; then
     echo "Removing network namespace ${namespace1}"
     ip netns pids $namespace1 | xargs kill
     ip netns del $namespace1
   fi
-  if [ -e /var/run/netns/${namespace2} ]; then
+  if [[ -e /var/run/netns/${namespace2} ]]; then
     echo "Removing network namespace ${namespace2}"
     ip netns pids $namespace2 | xargs kill
     ip netns del $namespace2
@@ -34,7 +34,7 @@ if [ -f vars ]; then
 fi
 
 
-if [ -f /tmp/chrome_session_cache.txt ]; then
+if [[ -f /tmp/chrome_session_cache.txt ]]; then
   echo "removing old chrome client session cache file"
   rm /tmp/chrome_session_cache.txt
 fi

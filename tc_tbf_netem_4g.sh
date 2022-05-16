@@ -5,21 +5,23 @@ if [[ $EUID -ne 0 ]]; then
     echo "$0 is not running as root. Try using sudo."
     exit 2
 fi
-if [ ! -f vars ]; then
+if [[ ! -f vars ]]; then
     echo "Could not find environment variables to use"
     exit 2
 fi
 source vars
-if [ ! -e /var/run/netns/${namespace1} ]; then
+if [[ ! -e /var/run/netns/${namespace1} ]]; then
     echo "Could not find network namespace ${namespace1}"
     exit 2
 fi
-if [ ! -e /var/run/netns/${namespace2} ]; then
+if [[ ! -e /var/run/netns/${namespace2} ]]; then
     echo "Could not find network namespace ${namespace2}"
     exit 2
 fi
 
-if [ $experiment_type != "default" ]; then
+if [[ $experiment_type != "default" ]]; then
+    ip netns pids $namespace1 | xargs kill
+    ip netns pids $namespace2 | xargs kill
     ip netns exec $namespace1 tc qdisc delete dev ptp-$interface1 root
     ip netns exec $namespace2 tc qdisc delete dev ptp-$interface2 root
 fi
