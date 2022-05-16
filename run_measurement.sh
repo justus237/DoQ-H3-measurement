@@ -151,9 +151,9 @@ if [[ -f /tmp/chrome_session_cache.txt ]]; then
   rm /tmp/chrome_session_cache.txt
 fi
 
-source website-under-test
 
 cd $root_dir
+source website-under-test
 echo "running web performance measurement"
 ip netns exec $namespace1 python3 chromium_measurement.py $h3_server_ip $msmID $timestamp $experiment_type $website_under_test $error
 

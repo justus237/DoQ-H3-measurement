@@ -22,7 +22,7 @@ try:
         error = ""
 except IndexError:
     print(
-        'Input params incomplete, need server IP address for host mapping, measurement ID, timestamp and experiment type'
+        'Input params incomplete, need server IP address for host mapping, measurement ID, timestamp, experiment type, website under test and previous dns errors'
     )
     sys.exit(1)
 #need server certificate hash
