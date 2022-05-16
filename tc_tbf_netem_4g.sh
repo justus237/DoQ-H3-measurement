@@ -57,7 +57,7 @@ download_burst="256kb"
 
 
 rtt_half="23.6ms"
-packetloss_dec="0.001"
+packetloss_dec="0.0008"
 
 
 
