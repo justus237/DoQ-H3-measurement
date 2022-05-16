@@ -55,6 +55,8 @@ interface2=veth-server
 experiment_type=default
 EOF
 
+#get website_under_test
+source website-under-test
 
 echo "generating coredns certificates and keys"
 openssl req -x509 -out localhost.crt -keyout localhost.key \
@@ -85,7 +87,7 @@ echo "quic://.:8853 {
     ${server_ip} www.example.org
     reload 1h
   }
-  h3server /home/quic_net03/DoQ-H3-measurement/www.instagram.com/ ${server_ip}:6121
+  h3server /home/quic_net03/DoQ-H3-measurement/${website_under_test}/ ${server_ip}:6121
   errors
   log
   debug
