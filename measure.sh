@@ -6,10 +6,14 @@ fi
 
 declare -a websites=("www.example.org" "www.wikipedia.org" "www.instagram.com")
 
-for curr_website in "${websites[@]}"
+while true
 do
-    echo "website_under_test=${curr_website}" > website-under-test
-    bash ./setup_measurement.sh
-    bash ./tc_tbf_netem_fixed.sh
-    bash ./run_measurement.sh
+    for curr_website in "${websites[@]}"
+    do
+        echo "website_under_test=${curr_website}" > website-under-test
+        bash ./setup_measurement.sh
+        bash ./tc_tbf_netem_fixed.sh
+        bash ./run_measurement.sh
+    done
+    sleep 5
 done
