@@ -14,6 +14,11 @@ try:
     msm_id = sys.argv[2]
     timestamp = sys.argv[3]
     experiment_type = sys.argv[4]
+    error = sys.argv[5]
+    if error != "none":
+        error = "DNS: "+error+"; "
+    else:
+        error = ""
 except IndexError:
     print(
         'Input params incomplete, need server IP address for host mapping, measurement ID, timestamp and experiment type'
@@ -112,7 +117,7 @@ def run_web_performance():
         print(performance_metrics_warmup)
     except selenium.common.exceptions.WebDriverException as e:
         print(e)
-        insert_measurement("web performance warmup failed")
+        insert_measurement(error+"web_performance_warmup")
         insert_lookups()
         driver.quit()
         return
@@ -131,13 +136,13 @@ def run_web_performance():
         print(performance_metrics)
     except selenium.common.exceptions.WebDriverException as e:
         print(e)
-        insert_measurement("web performance failed")
+        insert_measurement(error+"web_performance")
         insert_lookups()
         driver.quit()
         return
     insert_web_performance(performance_metrics, 0)
     driver.quit()
-    insert_measurement("")
+    insert_measurement(error+"")
     insert_lookups()
     
 
