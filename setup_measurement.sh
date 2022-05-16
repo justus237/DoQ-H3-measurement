@@ -85,7 +85,7 @@ echo "quic://.:8853 {
     ${server_ip} www.example.org
     reload 1h
   }
-  h3server /tmp/quic-data/www.example.org/ ${server_ip}:6121
+  h3server /home/quic_net03/DoQ-H3-measurement/www.instagram.com/ ${server_ip}:6121
   errors
   log
   debug
