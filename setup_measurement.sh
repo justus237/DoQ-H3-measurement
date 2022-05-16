@@ -55,6 +55,11 @@ interface2=veth-server
 experiment_type=default
 EOF
 
+if [[ ! -f website-under-test ]]; then
+  echo "website_under_test=www.example.org" > website-under-test
+fi
+
+
 #get website_under_test
 source website-under-test
 

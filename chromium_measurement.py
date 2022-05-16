@@ -14,7 +14,8 @@ try:
     msm_id = sys.argv[2]
     timestamp = sys.argv[3]
     experiment_type = sys.argv[4]
-    error = sys.argv[5]
+    website = sys.argv[5]
+    error = sys.argv[6]
     if error != "none":
         error = "DNS: "+error+"; "
     else:
@@ -155,6 +156,7 @@ def create_measurements_table():
                 timestamp string,
                 experiment_type string,
                 error string,
+                website string,
                 PRIMARY KEY (msm_id)
             );
             """
@@ -242,7 +244,7 @@ def insert_web_performance(performance, is_warmup):
     db.commit()
 
 def insert_measurement(error):
-    cursor.execute("INSERT INTO measurements VALUES (?,?,?,?);", (msm_id, timestamp, experiment_type, error))
+    cursor.execute("INSERT INTO measurements VALUES (?,?,?,?,?);", (msm_id, timestamp, experiment_type, error, website))
     db.commit()
 
 def insert_lookup(domain, elapsed, status, answer, is_warmup, transport_protocol):
