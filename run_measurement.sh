@@ -145,6 +145,12 @@ else
   error="none"
 fi
 
+# remove dnsproxy session cache
+if [ -f /tmp/chrome_session_cache.txt ]; then
+  echo "removing old chrome client session cache file"
+  rm /tmp/chrome_session_cache.txt
+fi
+
 cd $root_dir
 echo "running web performance measurement"
 ip netns exec $namespace1 python3 chromium_measurement.py $h3_server_ip $msmID $timestamp $experiment_type $error
