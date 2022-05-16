@@ -50,7 +50,7 @@ echo "DoQ: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
 if [ $h3_server_ip != $server_ip ]; then
-  error="${error},DoQ_warmup"
+  error="${error},DoQ_warmup: ${h3_server_ip}"
 fi
 
 sleep 1
@@ -65,7 +65,7 @@ echo "DoQ: running dig with session resumption"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
 if [ $h3_server_ip != $server_ip ]; then
-  error="${error},DoQ"
+  error="${error},DoQ: ${h3_server_ip}"
 fi
 
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq.log
@@ -96,7 +96,7 @@ echo "DoH: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
 if [ $h3_server_ip != $server_ip ]; then
-  error="${error},DoH"
+  error="${error},DoH: ${h3_server_ip}"
 fi
 
 #dnsproxyPID=$(ps -e | pgrep dnsproxy)
@@ -126,7 +126,7 @@ echo "DoUDP: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
 if [ $h3_server_ip != $server_ip ]; then
-  error="${error},DoUDP"
+  error="${error},DoUDP: ${h3_server_ip}"
 fi
 
 #dnsproxyPID=$(ps -e | pgrep dnsproxy)

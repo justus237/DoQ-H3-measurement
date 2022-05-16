@@ -116,8 +116,7 @@ def run_web_performance():
         performance_metrics_warmup = driver.execute_script(web_perf_script)
         print(performance_metrics_warmup)
     except selenium.common.exceptions.WebDriverException as e:
-        print(e)
-        insert_measurement(error+"web_performance_warmup")
+        insert_measurement(error+"H3_web_performance_warmup: "+str(e))
         insert_lookups()
         driver.quit()
         return
@@ -135,8 +134,7 @@ def run_web_performance():
         performance_metrics = driver.execute_script(web_perf_script)
         print(performance_metrics)
     except selenium.common.exceptions.WebDriverException as e:
-        print(e)
-        insert_measurement(error+"web_performance")
+        insert_measurement(error+"H3_web_performance: "+str(e))
         insert_lookups()
         driver.quit()
         return
