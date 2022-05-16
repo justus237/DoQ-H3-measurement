@@ -14,6 +14,14 @@ do
         bash ./setup_measurement.sh
         bash ./tc_tbf_netem_fixed.sh
         bash ./run_measurement.sh
+
+        bash ./setup_measurement.sh
+        bash ./tc_tbf_netem_5g.sh
+        bash ./run_measurement.sh
+
+        bash ./setup_measurement.sh
+        bash ./tc_tbf_netem_4g.sh
+        bash ./run_measurement.sh
     done
     sleep 5
 done
