@@ -8,9 +8,7 @@ declare -a websites=("www.example.org" "www.wikipedia.org" "www.instagram.com")
 
 for curr_website in "${websites[@]}"
 do
-    cat << EOF >> website-under-test
-    website_under_test=${curr_website}
-    EOF
+    echo "website_under_test=${curr_website}" > website-under-test
     bash ./setup_measurement.sh
     bash ./tc_tbf_netem_fixed.sh
     bash ./run_measurement.sh
