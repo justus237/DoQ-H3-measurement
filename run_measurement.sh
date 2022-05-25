@@ -30,9 +30,9 @@ coredns_path="../coredns"
 dnsproxy_path="../dnsproxy"
 chrome_path="../chromium"
 
-ip netns exec $namespace1 tcpdump -G 3600 -i ptp-veth-client -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
+ip netns exec $namespace1 tcpdump -G 3600 -i $interface1 -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
 tcpdumpclientPID=$!
-ip netns exec $namespace2 tcpdump -G 3600 -i ptp-veth-server -w $root_dir/server-${timestamp}-${experiment_type}-${msmID}.pcap &
+ip netns exec $namespace2 tcpdump -G 3600 -i $interface2 -w $root_dir/server-${timestamp}-${experiment_type}-${msmID}.pcap &
 tcpdumpserverPID=$!
 sleep 5
 

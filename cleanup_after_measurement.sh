@@ -19,8 +19,8 @@ if [ -f vars ]; then
     ip netns pids $namespace2 | xargs kill
     ip netns del $namespace2
   fi
-  #ip link del ptp-$interface1
-  #ip link del ptp-$interface2
+  #ip link del $interface1
+  #ip link del $interface2
   rm vars
 fi
 
