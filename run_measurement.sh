@@ -73,8 +73,8 @@ echo -n > $root_dir/dnsproxy.log
 echo "killing dnsproxy"
 kill -SIGTERM $dnsproxyPID
 
-echo "DoQ warmup metrics"
-grep '^metrics:DoQ exchange' $root_dir/dnsproxy-doq-warmup.log
+#echo "DoQ warmup metrics"
+#grep '^metrics:DoQ exchange' $root_dir/dnsproxy-doq-warmup.log
 echo "DoQ metrics"
 grep --text '^metrics:DoQ exchange' $root_dir/dnsproxy-doq.log
 
