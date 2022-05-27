@@ -49,43 +49,19 @@ ip netns exec $namespace1 ./dnsproxy -u "quic://${dns_server_ip}:8853" -v --inse
 echo "DoQ: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
-#if [[ $h3_server_ip != $server_ip ]]; then
-#  error="${error},DoQ_warmup: ${h3_server_ip}"
-#fi
-
-#sleep 1
-#echo "DoQ: moving log file and clearing it for session resumption"
-#cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq-warmup.log
-#echo -n > $root_dir/dnsproxy.log
-#echo "DoQ: sending reset to dnsproxy for session resumption"
-#dnsproxyPID=$(ps -e | pgrep dnsproxy)
-#kill -SIGUSR1 $dnsproxyPID
-
-#echo "DoQ: running dig with session resumption"
-#h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
-#echo "dig result: www.example.org. IN A ${h3_server_ip}"
 if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoQ: ${h3_server_ip}"
 fi
 
-cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq.log
-echo -n > $root_dir/dnsproxy.log
+
 echo "killing dnsproxy"
 kill -SIGTERM $dnsproxyPID
+sleep 1
+cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq.log
+echo -n > $root_dir/dnsproxy.log
 
-#echo "DoQ warmup metrics"
-#grep '^metrics:DoQ exchange' $root_dir/dnsproxy-doq-warmup.log
-echo "DoQ metrics"
-grep --text '^metrics:DoQ exchange' $root_dir/dnsproxy-doq.log
-
-# echo "killing coredns"
-# cp $root_dir/coredns.log $root_dir/coredns-doh.log
-# echo -n > $root_dir/coredns.log
-# kill -SIGTERM $corednsPID
-# cd $root_dir && cd $coredns_path
-# echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
-# ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
-# corednsPID=$!
+#echo "DoQ metrics"
+#grep --text '^metrics:DoQ exchange' $root_dir/dnsproxy-doq.log
 
 
 cd $root_dir && cd $dnsproxy_path
@@ -99,24 +75,16 @@ if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoH: ${h3_server_ip}"
 fi
 
-#dnsproxyPID=$(ps -e | pgrep dnsproxy)
-cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh.log
-echo -n > $root_dir/dnsproxy.log
+
 echo "killing dnsproxy"
 kill -SIGTERM $dnsproxyPID
+sleep 1
+cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh.log
+echo -n > $root_dir/dnsproxy.log
 
 
-echo "DoH metrics"
-grep '^metrics:DoH exchange' $root_dir/dnsproxy-doh.log
-
-# echo "killing coredns"
-# cp $root_dir/coredns.log $root_dir/coredns-doh.log
-# echo -n > $root_dir/coredns.log
-# kill -SIGTERM $corednsPID
-# cd $root_dir && cd $coredns_path
-# echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
-# ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
-# corednsPID=$!
+#echo "DoH metrics"
+#grep '^metrics:DoH exchange' $root_dir/dnsproxy-doh.log
 
 
 echo "starting dnsproxy with DoUDP upstream"
@@ -129,14 +97,14 @@ if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoUDP: ${h3_server_ip}"
 fi
 
-#dnsproxyPID=$(ps -e | pgrep dnsproxy)
-cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp.log
-echo -n > $root_dir/dnsproxy.log
 echo "killing dnsproxy"
 kill -SIGTERM $dnsproxyPID
+sleep 1
+cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp.log
+echo -n > $root_dir/dnsproxy.log
 
-echo "DoUDP metrics"
-grep '^metrics:DoUDP exchange' $root_dir/dnsproxy-doudp.log
+#echo "DoUDP metrics"
+#grep '^metrics:DoUDP exchange' $root_dir/dnsproxy-doudp.log
 
 
 if [[ $error != "" ]]; then
