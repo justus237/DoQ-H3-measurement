@@ -36,22 +36,21 @@ fi
 
 
 
-echo "experiment_type=4g" >> vars
+echo "experiment_type=fixed" >> vars
 
 
+#fcc mba 2019
+#down mean: 108.7955Mbps median: 70.54765Mbps
+#up mean: 43.96956Mbps median: 10.41276Mbps
+#latency mean: 44.5534ms median: 22.52ms
+#latency stdev: 107.4591ms
 
-#errant
-#https://github.com/marty90/errant/blob/94d1aee77290abf246bcbfbaac22bd04b8596032/profiles.csv
-#operator,country,rat,signal_quality,download_kbps,upload_kbps,latency_ms_avg,latency_ms_stdev
-#best 4g operator
-#telia,sweden,4G,good,53954.87190708256,21181.03261207894,91.85231065904635,45.93133354604078
-rtt_half="45.9261553295ms"
-rtt="91.85231065904635ms"
-rtt_stdev="45.93133354604078ms"
+rtt_half="22.2767ms"
+rtt="44.5534ms"
+rtt_stdev="107.4591ms"
 
-download="53.95487190708256Mbit"
-upload="21.18103261207894Mbit"
-
+download="70.54765Mbit"
+upload="10.41276Mbit"
 
 
 
