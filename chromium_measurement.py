@@ -97,13 +97,13 @@ def get_chrome_options():
     #write key log for wireshark later on
     chrome_options.add_argument('--ssl-key-log-file=ssl_key_log.txt')
 
-    chrome_options.binary_location = "/home/quic_net03/chromium/src/out/Default/chrome"
+    #chrome_options.binary_location = "/home/quic_net03/chromium/src/out/Default/chrome"
     return chrome_options
 
 
 def run_web_performance():
     chrome_options = get_chrome_options()
-    driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net03/chromium/src/out/Default/chromedriver')
+    driver = webdriver.Chrome(options=chrome_options)#, executable_path='/home/quic_net03/chromium/src/out/Default/chromedriver')
 
     print(timestamp+", "+experiment_type+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(30)
@@ -269,7 +269,8 @@ def insert_dns_metric(transport_protocol, metric, is_warmup):
 
 
 def insert_lookups():
-    for file_name in ['dnsproxy-doq-warmup.log', 'dnsproxy-doq.log', 'dnsproxy-doh.log', 'dnsproxy-doudp.log']:
+    #'dnsproxy-doq-warmup.log', 
+    for file_name in ['dnsproxy-doq.log', 'dnsproxy-doh.log', 'dnsproxy-doudp.log']:
         with open(file_name, "r") as logs:
             if 'warmup' in file_name:
                 is_warmup = True
