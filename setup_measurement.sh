@@ -174,10 +174,10 @@ ip netns exec $namespace11 ip link set dev $interface12 up
 ip netns exec $namespace22 ip link set dev $interface22 up
 ip netns exec $namespace22 ip link set dev $interface21 up
 
-ip link add name $br1 type bridge
-ip link add name $br2 type bridge
-ip link set $br1 netns $namespace11
-ip link set $br2 netns $namespace22
+ip netns exec $namespace11 ip link add name $br1 type bridge
+ip netns exec $namespace22 ip link add name $br2 type bridge
+#ip link set $br1 netns $namespace11
+#ip link set $br2 netns $namespace22
 
 ip netns exec $namespace11 ip link set $br1 up
 ip netns exec $namespace22 ip link set $br2 up
