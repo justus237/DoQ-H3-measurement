@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -ex
+set -ex
 #network namespaces require sudo
 if [[ $EUID -ne 0 ]]; then
     echo "$0 is not running as root. Try using sudo."
