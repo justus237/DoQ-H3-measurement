@@ -12,11 +12,7 @@ do
     do
         echo "website_under_test=${curr_website}" > website-under-test
         bash ./setup_measurement.sh
-        bash ./tc_tbf_netem_fixed.sh
-        bash ./run_measurement.sh
-
-        bash ./setup_measurement.sh
-        bash ./tc_tbf_netem_5g.sh
+        bash ./tc_tbf_netem_fixed_average.sh
         bash ./run_measurement.sh
 
         bash ./setup_measurement.sh
