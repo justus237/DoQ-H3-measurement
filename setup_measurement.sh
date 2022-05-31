@@ -110,7 +110,7 @@ echo "quic://.:8853 {
     ${server_ip} www.example.org
     reload 1h
   }
-  h3server /home/quic_net03/DoQ-H3-measurement/${website_under_test}/ ${server_ip}:6121
+  h3server ${website_under_test}/ ${server_ip}:6121
   errors
   log
   debug
