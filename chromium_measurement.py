@@ -117,7 +117,7 @@ def run_web_performance():
         time.sleep(2)
         performance_metrics_warmup = driver.execute_script(web_perf_script)
         print(performance_metrics_warmup)
-        driver.save_screenshot(msm_id+'-warmup.png')
+        driver.save_screenshot(website+" "+msm_id+'-warmup.png')
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance_warmup: "+str(e))
         insert_lookups()
@@ -137,7 +137,7 @@ def run_web_performance():
         time.sleep(2)
         performance_metrics = driver.execute_script(web_perf_script)
         print(performance_metrics)
-        driver.save_screenshot(msm_id+'.png')
+        driver.save_screenshot(website+" "+msm_id+'.png')
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance: "+str(e))
         insert_lookups()
