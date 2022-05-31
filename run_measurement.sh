@@ -54,7 +54,7 @@ if [[ $h3_server_ip != $server_ip ]]; then
 fi
 
 
-echo "killing dnsproxy"
+echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
 sleep 1
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq.log
@@ -76,7 +76,7 @@ if [[ $h3_server_ip != $server_ip ]]; then
 fi
 
 
-echo "killing dnsproxy"
+echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
 sleep 1
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh.log
@@ -97,7 +97,7 @@ if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoUDP: ${h3_server_ip}"
 fi
 
-echo "killing dnsproxy"
+echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
 sleep 1
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp.log
