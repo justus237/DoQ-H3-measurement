@@ -46,6 +46,7 @@ dns_server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
 echo "starting dnsproxy with DoQ upstream"
 cd $root_dir && cd $dnsproxy_path
 ip netns exec $namespace1 ./dnsproxy -u "quic://${dns_server_ip}:8853" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
+dnsproxyPID=$!
 echo "DoQ: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.example.org | tail -n1)
 echo "dig result: www.example.org. IN A ${h3_server_ip}"
