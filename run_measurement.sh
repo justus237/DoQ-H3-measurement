@@ -30,11 +30,11 @@ coredns_path="../coredns"
 dnsproxy_path="../dnsproxy"
 chrome_path="../chromium"
 
-#ip netns exec $namespace1 tcpdump -G 3600 -i $interface1 -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
-#tcpdumpclientPID=$!
-#ip netns exec $namespace2 tcpdump -G 3600 -i $interface2 -w $root_dir/server-${timestamp}-${experiment_type}-${msmID}.pcap &
-#tcpdumpserverPID=$!
-#sleep 5
+ip netns exec $namespace1 tcpdump -G 3600 -i $interface1 -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
+tcpdumpclientPID=$!
+ip netns exec $namespace2 tcpdump -G 3600 -i $interface2 -w $root_dir/server-${timestamp}-${experiment_type}-${msmID}.pcap &
+tcpdumpserverPID=$!
+sleep 5
 
 cd $root_dir && cd $coredns_path
 echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
@@ -129,8 +129,8 @@ ip netns exec $namespace1 python3 chromium_measurement.py $h3_server_ip $msmID $
 
 kill -SIGTERM $corednsPID
 
-#kill -SIGINT $tcpdumpclientPID
-#kill -SIGINT $tcpdumpserverPID
+kill -SIGINT $tcpdumpclientPID
+kill -SIGINT $tcpdumpserverPID
 # restart systemd-resolved
 #systemctl enable systemd-resolved
 #systemctl start systemd-resolved
