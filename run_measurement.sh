@@ -17,6 +17,21 @@ if [[ ! -e /var/run/netns/${namespace2} ]]; then
     echo "Could not find network namespace ${namespace2}"
     exit 2
 fi
+if [[ ! -e /var/run/netns/${namespace3} ]]; then
+    echo "Could not find network namespace ${namespace3}"
+    exit 2
+fi
+
+dns_server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
+
+ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ;
+ping_code=$?
+if [ $ping_code -ne 0 ]
+then
+  echo "pinging server from client failed"
+  exit 2
+fi
+
 msmID=$(uuidgen)
 timestamp="`date "+%Y-%m-%d_%H_%M_%S"`"
 server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
@@ -41,7 +56,7 @@ echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
 ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
 corednsPID=$!
 
-dns_server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
+
 
 echo "starting dnsproxy with DoQ upstream"
 cd $root_dir && cd $dnsproxy_path
