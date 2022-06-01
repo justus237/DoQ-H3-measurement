@@ -104,7 +104,7 @@ def get_chrome_options():
 def run_web_performance():
     chrome_options = get_chrome_options()
     driver = webdriver.Chrome(options=chrome_options)#, executable_path='/home/quic_net03/chromium/src/out/Default/chromedriver')
-
+    
     print(timestamp+", "+experiment_type+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(30)
     try:
@@ -122,6 +122,7 @@ def run_web_performance():
         insert_measurement(error+"H3_web_performance_warmup: "+str(e))
         insert_lookups()
         driver.quit()
+        print(str(e))
         return
     insert_web_performance(performance_metrics_warmup, 1)
     time.sleep(30)
@@ -142,6 +143,7 @@ def run_web_performance():
         insert_measurement(error+"H3_web_performance: "+str(e))
         insert_lookups()
         driver.quit()
+        print(str(e))
         return
     insert_web_performance(performance_metrics, 0)
     driver.quit()
