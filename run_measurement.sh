@@ -24,11 +24,21 @@ fi
 
 dns_server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
 
+#from web-performance measurement script by Luca
 ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ;
 ping_code=$?
 if [ $ping_code -ne 0 ]
 then
   echo "pinging server from client failed"
+  exit 2
+fi
+
+client_ip=`echo $ip_address1 |awk -F '/' '{print $1}'`
+ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ;
+ping_code=$?
+if [ $ping_code -ne 0 ]
+then
+  echo "pinging client from server failed"
   exit 2
 fi
 
