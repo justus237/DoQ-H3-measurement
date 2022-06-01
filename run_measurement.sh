@@ -153,7 +153,7 @@ fi
 cd $root_dir
 source website-under-test
 echo "running web performance measurement"
-ip netns exec $namespace1 python3 chromium_measurement.py $h3_server_ip $msmID $timestamp $experiment_type $website_under_test $error
+ip netns exec $namespace1 /home/quic_net01/.pyenv/shims/python3 chromium_measurement.py $h3_server_ip $msmID $timestamp $experiment_type $website_under_test $error
 
 
 kill -SIGTERM $corednsPID
