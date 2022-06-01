@@ -91,7 +91,8 @@ def get_chrome_options():
     chrome_options.add_argument('--disable-http-cache')
     #force quic on the website under test
     #alternative: '--origin-to-force-quic-on=*' (the star requires quotes when using this option on the command line)
-    chrome_options.add_argument('--origin-to-force-quic-on=www.example.org:443')
+    #chrome_options.add_argument('--origin-to-force-quic-on=www.example.org:443')
+    chrome_options.add_argument('--origin-to-force-quic-on=*')
     #enable quic
     chrome_options.add_argument('--enable-quic')
     #write key log for wireshark later on
@@ -108,7 +109,8 @@ def run_web_performance():
     print(timestamp+", "+experiment_type+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(30)
     try:
-        driver.get("https://www.example.org")
+        #driver.get("https://www.example.org")
+        driver.get("https://10.0.0.2")
         #while driver.execute_script("return document.readyState;") != "complete":
         #    time.sleep(1)
         #https://stackoverflow.com/a/14901494
