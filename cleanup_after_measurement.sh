@@ -19,14 +19,18 @@ if [ -f vars ]; then
     ip netns pids $namespace2 | xargs -r kill
     ip netns del $namespace2
   fi
-  if [ -e /var/run/netns/${namespace11} ]; then
-    echo "Removing network namespace ${namespace11}"
-    ip netns del $namespace11
+  if [ -e /var/run/netns/${namespace3} ]; then
+    echo "Removing network namespace ${namespace3}"
+    ip netns del $namespace3
   fi
-  if [ -e /var/run/netns/${namespace22} ]; then
-    echo "Removing network namespace ${namespace22}"
-    ip netns del $namespace22
-  fi
+  # if [ -e /var/run/netns/${namespace11} ]; then
+  #   echo "Removing network namespace ${namespace11}"
+  #   ip netns del $namespace11
+  # fi
+  # if [ -e /var/run/netns/${namespace22} ]; then
+  #   echo "Removing network namespace ${namespace22}"
+  #   ip netns del $namespace22
+  # fi
   #ip link del $interface1
   #ip link del $interface2
   rm vars
