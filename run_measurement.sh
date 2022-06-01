@@ -32,6 +32,7 @@ then
   echo "pinging server from client failed"
   exit 2
 fi
+sleep 1
 
 client_ip=`echo $ip_address1 |awk -F '/' '{print $1}'`
 ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ;
@@ -41,6 +42,7 @@ then
   echo "pinging client from server failed"
   exit 2
 fi
+sleep 1
 
 msmID=$(uuidgen)
 timestamp="`date "+%Y-%m-%d_%H_%M_%S"`"
@@ -66,7 +68,7 @@ echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
 ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
 corednsPID=$!
 
-
+sleep 5
 
 echo "starting dnsproxy with DoQ upstream"
 cd $root_dir && cd $dnsproxy_path
@@ -82,9 +84,10 @@ fi
 
 echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
-sleep 1
+sleep 2
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq.log
 echo -n > $root_dir/dnsproxy.log
+sleep 1
 
 #echo "DoQ metrics"
 #grep --text '^metrics:DoQ exchange' $root_dir/dnsproxy-doq.log
@@ -104,10 +107,10 @@ fi
 
 echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
-sleep 1
+sleep 2
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh.log
 echo -n > $root_dir/dnsproxy.log
-
+sleep 1
 
 #echo "DoH metrics"
 #grep '^metrics:DoH exchange' $root_dir/dnsproxy-doh.log
@@ -125,9 +128,10 @@ fi
 
 echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
-sleep 1
+sleep 2
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp.log
 echo -n > $root_dir/dnsproxy.log
+sleep 1
 
 #echo "DoUDP metrics"
 #grep '^metrics:DoUDP exchange' $root_dir/dnsproxy-doudp.log
