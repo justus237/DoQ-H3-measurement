@@ -239,4 +239,4 @@ ip netns exec $namespace3 ip link set $interface21 master $br0
 echo "setting up netns rslv.conf"
 mkdir -p /etc/netns/{$namespace1,$namespace2,$namespace3}
 touch /etc/netns/$namespace{1,2,3}/resolv.conf
-#echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
+echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
