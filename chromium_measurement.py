@@ -86,13 +86,13 @@ def get_chrome_options():
     chrome_options.add_argument('--ignore-urlfetcher-cert-requests')
     #take the result we got from name resolution
     #if you put quotes anywhere inside this one, it wont pass the argument properly when using selenium
-    chrome_options.add_argument("--host-resolver-rules=MAP www.example.org:443 "+server_ip+":6121")
+    chrome_options.add_argument("--host-resolver-rules=MAP www.localdomain.com:443 "+server_ip+":6121")
     #disable http cache so that the 0-rtt reload actually fetches the complete website again
     chrome_options.add_argument('--disable-http-cache')
     #force quic on the website under test
     #alternative: '--origin-to-force-quic-on=*' (the star requires quotes when using this option on the command line)
-    #chrome_options.add_argument('--origin-to-force-quic-on=www.example.org:443')
-    chrome_options.add_argument('--origin-to-force-quic-on=*')
+    chrome_options.add_argument('--origin-to-force-quic-on=www.localdomain.com:443')
+    #chrome_options.add_argument('--origin-to-force-quic-on=*')
     #enable quic
     chrome_options.add_argument('--enable-quic')
     #write key log for wireshark later on
