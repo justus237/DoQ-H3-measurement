@@ -118,9 +118,14 @@ def run_web_performance():
         #need to sleep otherwise first (contentful) paint will be 0
         time.sleep(2)
         performance_metrics_warmup = driver.execute_script(web_perf_script)
-        print(performance_metrics_warmup)
+        #print(performance_metrics_warmup)
         if 'www.localdomain.com' not in performance_metrics_warmup['name']:
             driver.save_screenshot(website+" "+msm_id+'-warmup.png')
+            print('something failed with chrome loading the website without crashing it')
+            print(performance_metrics_warmup['name'])
+            insert_measurement(error+"H3_web_performance_warmup chrome error "+performance_metrics_warmup['name'])
+            insert_lookups()
+            return
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance_warmup: "+str(e))
         insert_lookups()
@@ -140,9 +145,14 @@ def run_web_performance():
         #need to sleep otherwise first (contentful) paint will be 0
         time.sleep(2)
         performance_metrics = driver.execute_script(web_perf_script)
-        print(performance_metrics)
+        #print(performance_metrics)
         if 'www.localdomain.com' not in performance_metrics['name']:
             driver.save_screenshot(website+" "+msm_id+'.png')
+            print('something failed with chrome loading the website without crashing it')
+            print(performance_metrics['name'])
+            insert_measurement(error+"H3_web_performance chrome error "+performance_metrics_warmup['name'])
+            insert_lookups()
+            return
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance: "+str(e))
         insert_lookups()
