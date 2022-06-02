@@ -111,7 +111,7 @@ def run_web_performance():
     driver.set_page_load_timeout(30)
     try:
         #driver.get("https://www.example.org")
-        driver.get("https://10.0.0.2")
+        driver.get("https://www.localdomain.com")
         #while driver.execute_script("return document.readyState;") != "complete":
         #    time.sleep(1)
         #https://stackoverflow.com/a/14901494
