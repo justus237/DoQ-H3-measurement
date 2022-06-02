@@ -11,23 +11,23 @@ do
     for curr_website in "${websites[@]}"
     do
         echo "website_under_test=${curr_website}" > website-under-test
-        bash ./setup_measurement.sh
+        bash ./setup_measurement.sh >> setup.log 2>&1
         bash ./tc_tbf_netem_fixed_dsl.sh
         bash ./run_measurement.sh
 
-        bash ./setup_measurement.sh
+        bash ./setup_measurement.sh >> setup.log 2>&1
         bash ./tc_tbf_netem_fixed_cable.sh
         bash ./run_measurement.sh
 
-        bash ./setup_measurement.sh
+        bash ./setup_measurement.sh >> setup.log 2>&1
         bash ./tc_tbf_netem_fixed_fiber.sh
         bash ./run_measurement.sh
 
-        bash ./setup_measurement.sh
+        bash ./setup_measurement.sh >> setup.log 2>&1
         bash ./tc_tbf_netem_4g.sh
         bash ./run_measurement.sh
 
-        bash ./setup_measurement.sh
+        bash ./setup_measurement.sh >> setup.log 2>&1
         bash ./tc_tbf_netem_4g_medium.sh
         bash ./run_measurement.sh
     done
