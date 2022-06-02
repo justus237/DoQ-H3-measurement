@@ -243,19 +243,29 @@ touch /etc/netns/$namespace{1,2,3}/resolv.conf
 
 echo $dns_server_ip
 ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ; ping_code=$?
-while [ $ping_code -ne 0 ]
-do
+if [ $ping_code -ne 0 ]
+then
   echo "###pinging server from client failed"
-  ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ; ping_code=$?
   sleep 1
-done
+  ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ; ping_code=$?
+  if [ $ping_code -ne 0 ]
+  then
+  echo "###failed ping twice wtf"
+  exit 2
+  fi
+fi
 
 client_ip=`echo $ip_address1 |awk -F '/' '{print $1}'`
 echo $client_ip
 ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ; ping_code=$?
-while [ $ping_code -ne 0 ]
-dp
+if [ $ping_code -ne 0 ]
+then
   echo "###pinging client from server failed"
-  ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ; ping_code=$?
   sleep 1
-done
+  ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ; ping_code=$?
+  if [ $ping_code -ne 0 ]
+  then
+  echo "###failed ping twice wtf"
+  exit 2
+  fi
+fi
