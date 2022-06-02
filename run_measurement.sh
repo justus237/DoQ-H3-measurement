@@ -64,25 +64,25 @@ tcpdumpserverPID=$!
 sleep 5
 
 cd $root_dir && cd $coredns_path
-echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
+#echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
 ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
 corednsPID=$!
 
 sleep 5
 
-echo "starting dnsproxy with DoQ upstream"
+#echo "starting dnsproxy with DoQ upstream"
 cd $root_dir && cd $dnsproxy_path
 ip netns exec $namespace1 ./dnsproxy -u "quic://${dns_server_ip}:8853" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
 dnsproxyPID=$!
-echo "DoQ: running dig"
+#echo "DoQ: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.localdomain.com | tail -n1)
-echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
+#echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
 if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoQ: ${h3_server_ip}"
 fi
 
 
-echo "killing dnsproxy ${dnsproxyPID}"
+#echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
 sleep 2
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq.log
@@ -94,18 +94,18 @@ sleep 1
 
 
 cd $root_dir && cd $dnsproxy_path
-echo "starting dnsproxy with DoH upstream"
+#echo "starting dnsproxy with DoH upstream"
 ip netns exec $namespace1 ./dnsproxy -u "https://${dns_server_ip}:443/dns-query" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
 dnsproxyPID=$!
-echo "DoH: running dig"
+#echo "DoH: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.localdomain.com | tail -n1)
-echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
+#echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
 if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoH: ${h3_server_ip}"
 fi
 
 
-echo "killing dnsproxy ${dnsproxyPID}"
+#echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
 sleep 2
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh.log
@@ -116,17 +116,17 @@ sleep 1
 #grep '^metrics:DoH exchange' $root_dir/dnsproxy-doh.log
 
 
-echo "starting dnsproxy with DoUDP upstream"
+#echo "starting dnsproxy with DoUDP upstream"
 ip netns exec $namespace1 ./dnsproxy -u "${dns_server_ip}:53" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
 dnsproxyPID=$!
-echo "DoUDP: running dig"
+#echo "DoUDP: running dig"
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.localdomain.com | tail -n1)
-echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
+#echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
 if [[ $h3_server_ip != $server_ip ]]; then
   error="${error},DoUDP: ${h3_server_ip}"
 fi
 
-echo "killing dnsproxy ${dnsproxyPID}"
+#echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
 sleep 2
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp.log
