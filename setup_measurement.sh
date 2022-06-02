@@ -242,9 +242,7 @@ touch /etc/netns/$namespace{1,2,3}/resolv.conf
 #echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
 
 server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
-echo $server_ip
 ip netns exec $namespace1 ping -c1 ${server_ip} 2>&1 >/dev/null ; ping_code=$?
-echo $ping_code
 #https://unix.stackexchange.com/a/184273
 while ! ip netns exec $namespace1 ping -c1 ${server_ip} &>/dev/null
 do
@@ -252,9 +250,7 @@ do
 done
 
 client_ip=`echo $ip_address1 |awk -F '/' '{print $1}'`
-echo $client_ip
 ip netns exec $namespace2 ping -c1 ${client_ip} 2>&1 >/dev/null ; ping_code=$?
-echo $ping_code
 while ! ip netns exec $namespace2 ping -c1 ${client_ip} &>/dev/null
 do
   echo "###Pinging client from server failed - `date`"
