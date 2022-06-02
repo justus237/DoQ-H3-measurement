@@ -242,30 +242,17 @@ touch /etc/netns/$namespace{1,2,3}/resolv.conf
 #echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
 
 echo $dns_server_ip
-ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ; ping_code=$?
-if [ $ping_code -ne 0 ]
-then
-  echo "###pinging server from client failed"
-  sleep 1
-  ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ; ping_code=$?
-  if [ $ping_code -ne 0 ]
-  then
-  echo "###failed ping twice wtf"
-  exit 2
-  fi
-fi
+ip netns exec $namespace1 ping -c1 $dns_server_ip 2>&1 >/dev/null ; ping_code=$?
+echo $ping_code
+while ! ip netns exec $namespace1 ping -c1 $dns_server_ip &>/dev/null
+do
+  echo "###Pinging server from client failed - `date`"
+done
 
 client_ip=`echo $ip_address1 |awk -F '/' '{print $1}'`
 echo $client_ip
-ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ; ping_code=$?
-if [ $ping_code -ne 0 ]
-then
-  echo "###pinging client from server failed"
-  sleep 1
-  ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ; ping_code=$?
-  if [ $ping_code -ne 0 ]
-  then
-  echo "###failed ping twice wtf"
-  exit 2
-  fi
-fi
+ip netns exec $namespace2 ping -c1 $client_ip 2>&1 >/dev/null ; ping_code=$?
+while ! ip netns exec $namespace2 ping -c1 $client_ip &>/dev/null
+do
+  echo "###Pinging client from server failed - `date`"
+done
