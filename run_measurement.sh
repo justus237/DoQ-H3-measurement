@@ -66,6 +66,13 @@ ip netns exec $namespace2 ./coredns >& $root_dir/coredns.log &
 corednsPID=$!
 
 sleep 5
+#while [[$(tac coredns.log |egrep -m 1 .) != "[INFO] plugin/DoQ: ServePacket()"]]
+while ! grep -Fxq "[INFO] plugin/DoQ: ServePacket()" $root_dir/coredns.log
+do
+  echo "waiting for coredns to load"
+  sleep 1
+done
+echo "coredns finished loading"
 
 #echo "starting dnsproxy with DoQ upstream"
 cd $root_dir && cd $dnsproxy_path
