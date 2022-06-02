@@ -245,6 +245,7 @@ server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
 echo $server_ip
 ip netns exec $namespace1 ping -c1 ${server_ip} 2>&1 >/dev/null ; ping_code=$?
 echo $ping_code
+#https://unix.stackexchange.com/a/184273
 while ! ip netns exec $namespace1 ping -c1 ${server_ip} &>/dev/null
 do
   echo "###Pinging server from client failed - `date`"
