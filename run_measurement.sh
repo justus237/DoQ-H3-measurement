@@ -5,20 +5,20 @@ if [[ $EUID -ne 0 ]]; then
     exit 2
 fi
 if [ ! -f vars ]; then
-    echo "Could not find environment variables to use"
+    echo "###Could not find environment variables to use"
     exit 2
 fi
 source vars
 if [[ ! -e /var/run/netns/${namespace1} ]]; then
-    echo "Could not find network namespace ${namespace1}"
+    echo "###Could not find network namespace ${namespace1}"
     exit 2
 fi
 if [[ ! -e /var/run/netns/${namespace2} ]]; then
-    echo "Could not find network namespace ${namespace2}"
+    echo "###Could not find network namespace ${namespace2}"
     exit 2
 fi
 if [[ ! -e /var/run/netns/${namespace3} ]]; then
-    echo "Could not find network namespace ${namespace3}"
+    echo "###Could not find network namespace ${namespace3}"
     exit 2
 fi
 
@@ -29,7 +29,7 @@ ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ;
 ping_code=$?
 if [ $ping_code -ne 0 ]
 then
-  echo "pinging server from client failed"
+  echo "###pinging server from client failed"
   exit 2
 fi
 sleep 1
@@ -39,7 +39,7 @@ ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ;
 ping_code=$?
 if [ $ping_code -ne 0 ]
 then
-  echo "pinging client from server failed"
+  echo "###pinging client from server failed"
   exit 2
 fi
 sleep 1
