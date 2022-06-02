@@ -72,8 +72,8 @@ def get_chrome_options():
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-proxy-server')
     #capture netlogs just in case, use timestamp for file name for now
-    #chrome_options.add_argument("--net-log-capture-mode=Everything")
-    #chrome_options.add_argument('--log-net-log=chrome-netlog-'+timestamp+'-'+experiment_type+'-'+msm_id+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
+    chrome_options.add_argument("--net-log-capture-mode=Everything")
+    chrome_options.add_argument('--log-net-log=chrome-netlog-'+timestamp+'-'+experiment_type+'-'+msm_id+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
 
     chrome_options.add_argument("--disable-dev-shm-usage")
     #not used anymore but was needed for older youtube measurements
