@@ -127,6 +127,8 @@ def run_web_performance():
             insert_lookups()
             driver.quit()
             return
+        else:
+            print('warmup success')
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance_warmup: "+str(e))
         insert_lookups()
@@ -155,6 +157,8 @@ def run_web_performance():
             insert_lookups()
             driver.quit()
             return
+        else:
+            print('msm success')
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance: "+str(e))
         insert_lookups()
