@@ -106,7 +106,7 @@ def run_web_performance():
     chrome_options = get_chrome_options()
     driver = webdriver.Chrome(options=chrome_options)#, executable_path='/home/quic_net03/chromium/src/out/Default/chromedriver')
     
-    print(timestamp+", "+experiment_type+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
+    print(timestamp+", "+experiment_type+", "+website+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(30)
     try:
         #driver.get("https://www.example.org")
