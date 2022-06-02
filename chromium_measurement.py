@@ -119,7 +119,7 @@ def run_web_performance():
         time.sleep(2)
         performance_metrics_warmup = driver.execute_script(web_perf_script)
         print(performance_metrics_warmup)
-        if performance_metrics_warmup['name'] != 'https://www.localdomain.com/':
+        if 'www.localdomain.com' not in performance_metrics_warmup['name']:
             driver.save_screenshot(website+" "+msm_id+'-warmup.png')
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance_warmup: "+str(e))
@@ -141,7 +141,7 @@ def run_web_performance():
         time.sleep(2)
         performance_metrics = driver.execute_script(web_perf_script)
         print(performance_metrics)
-        if performance_metrics['name'] != 'https://www.localdomain.com/':
+        if 'www.localdomain.com' not in performance_metrics['name']:
             driver.save_screenshot(website+" "+msm_id+'.png')
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance: "+str(e))

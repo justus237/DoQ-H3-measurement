@@ -81,7 +81,7 @@ experiment_type=default
 EOF
 
 if [[ ! -f website-under-test ]]; then
-  echo "website_under_test=www.example.org" > website-under-test
+  echo "website_under_test=www.localdomain.com" > website-under-test
 fi
 
 
@@ -114,7 +114,7 @@ echo "quic://.:8853 {
     session_ticket_key session_ticket.key
   }
   hosts {
-    ${server_ip} www.example.org
+    ${server_ip} www.localdomain.com
     reload 1h
   }
   h3server ${website_under_test}/ ${server_ip}:6121
@@ -126,7 +126,7 @@ echo "quic://.:8853 {
 .:53 {
   bind ${server_ip}
   hosts {
-    ${server_ip} www.example.org
+    ${server_ip} www.localdomain.com
     reload 1h
   }
   errors
@@ -140,7 +140,7 @@ https://.:443 {
     session_ticket_key session_ticket.key
   }
   hosts {
-    ${server_ip} www.example.org
+    ${server_ip} www.localdomain.com
     reload 1h
   }
   errors
