@@ -17,10 +17,7 @@ if [[ ! -e /var/run/netns/${namespace2} ]]; then
     echo "###Could not find network namespace ${namespace2}"
     exit 2
 fi
-if [[ ! -e /var/run/netns/${namespace3} ]]; then
-    echo "###Could not find network namespace ${namespace3}"
-    exit 2
-fi
+
 
 dns_server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
 

@@ -70,6 +70,7 @@ def get_chrome_options():
     chrome_options.add_argument("--no-sandbox")
     #need x forwarding ($DISPLAY) if commented out
     chrome_options.add_argument('--headless')
+    #proxy gets applied anyway, completely useless
     chrome_options.add_argument('--no-proxy-server')
     #capture netlogs just in case, use timestamp for file name for now
     chrome_options.add_argument("--net-log-capture-mode=Everything")

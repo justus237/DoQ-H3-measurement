@@ -33,14 +33,15 @@ if [[ -f vars ]]; then
     ip netns pids $namespace3 | xargs -r kill
     ip netns del $namespace3
   fi
-  # if [[ -e /var/run/netns/${namespace11} ]]; then
-  #   echo "Removing network namespace ${namespace11}"
-  #   ip netns del $namespace11
-  # fi
-  # if [[ -e /var/run/netns/${namespace22} ]]; then
-  #   echo "Removing network namespace ${namespace22}"
-  #   ip netns del $namespace22
-  # fi
+  
+  if [[ -e /var/run/netns/${namespace11} ]]; then
+    echo "Removing network namespace ${namespace11}"
+    ip netns del $namespace11
+  fi
+  if [[ -e /var/run/netns/${namespace22} ]]; then
+    echo "Removing network namespace ${namespace22}"
+    ip netns del $namespace22
+  fi
   #ip link del ptp-$interface1
   #ip link del ptp-$interface2
   rm vars
@@ -153,11 +154,11 @@ echo "setting up network namespaces"
 ip netns add $namespace1
 ip netns add $namespace2
 #for two bridge setup
-#ip netns add $namespace11
-#ip netns add $namespace22
+ip netns add $namespace11
+ip netns add $namespace22
 
 #for one bridge setup
-ip netns add $namespace3
+#ip netns add $namespace3
 ip netns list
 
 #single cable setup
@@ -172,50 +173,10 @@ ip netns list
 # ip netns exec $namespace1 ip link set lo up
 
 #two bridge setup
-# ip link add $interface1 type veth peer name $interface11
-# ip link add $interface2 type veth peer name $interface22
-# ip link add $interface12 type veth peer name $interface21
+ip link add $interface1 type veth peer name $interface11
+ip link add $interface2 type veth peer name $interface22
+ip link add $interface12 type veth peer name $interface21
 
-# ip link set $interface1 netns $namespace1
-# ip link set $interface2 netns $namespace2
-# ip netns exec $namespace1 ip addr add $ip_address1 dev $interface1
-# ip netns exec $namespace2 ip addr add $ip_address2 dev $interface2
-# ip netns exec $namespace1 ip link set dev $interface1 up
-# ip netns exec $namespace2 ip link set dev $interface2 up
-# ip netns exec $namespace1 ip link set lo up
-
-# ip link set $interface11 netns $namespace11
-# ip link set $interface22 netns $namespace22
-# ip link set $interface12 netns $namespace11
-# ip link set $interface21 netns $namespace22
-
-# ip netns exec $namespace11 ip link set dev $interface11 up
-# ip netns exec $namespace11 ip link set dev $interface12 up
-# ip netns exec $namespace22 ip link set dev $interface22 up
-# ip netns exec $namespace22 ip link set dev $interface21 up
-
-# ip netns exec $namespace11 ip link add name $br1 type bridge
-# ip netns exec $namespace22 ip link add name $br2 type bridge
-# #ip link set $br1 netns $namespace11
-# #ip link set $br2 netns $namespace22
-
-# ip netns exec $namespace11 ip link set $br1 up
-# ip netns exec $namespace22 ip link set $br2 up
-
-# ip netns exec $namespace11 ip link set $interface11 master $br1
-# ip netns exec $namespace11 ip link set $interface12 master $br1
-
-# ip netns exec $namespace22 ip link set $interface22 master $br2
-# ip netns exec $namespace22 ip link set $interface21 master $br2
-
-# #ip netns exec $namespace11 ip addr add $ip_address11 dev $br1
-# #ip netns exec $namespace22 ip addr add $ip_address22 dev $br2
-
-# #ip netns exec $namespace1 ip route add default via $ip_address11
-# #ip netns exec $namespace2 ip route add default via $ip_address22
-
-ip link add $interface1 type veth peer name $interface12
-ip link add $interface2 type veth peer name $interface21
 ip link set $interface1 netns $namespace1
 ip link set $interface2 netns $namespace2
 ip netns exec $namespace1 ip addr add $ip_address1 dev $interface1
@@ -224,21 +185,62 @@ ip netns exec $namespace1 ip link set dev $interface1 up
 ip netns exec $namespace2 ip link set dev $interface2 up
 ip netns exec $namespace1 ip link set lo up
 
-ip link set $interface12 netns $namespace3
-ip link set $interface21 netns $namespace3
+ip link set $interface11 netns $namespace11
+ip link set $interface22 netns $namespace22
+ip link set $interface12 netns $namespace11
+ip link set $interface21 netns $namespace22
 
-ip netns exec $namespace3 ip link set dev $interface12 up
-ip netns exec $namespace3 ip link set dev $interface21 up
+ip netns exec $namespace11 ip link set dev $interface11 up
+ip netns exec $namespace11 ip link set dev $interface12 up
+ip netns exec $namespace22 ip link set dev $interface22 up
+ip netns exec $namespace22 ip link set dev $interface21 up
 
-ip netns exec $namespace3 ip link add name $br0 type bridge
-ip netns exec $namespace3 ip link set $br0 up
-ip netns exec $namespace3 ip link set $interface12 master $br0
-ip netns exec $namespace3 ip link set $interface21 master $br0
+ip netns exec $namespace11 ip link add name $br1 type bridge
+ip netns exec $namespace22 ip link add name $br2 type bridge
+#ip link set $br1 netns $namespace11
+#ip link set $br2 netns $namespace22
+
+ip netns exec $namespace11 ip link set $br1 up
+ip netns exec $namespace22 ip link set $br2 up
+
+ip netns exec $namespace11 ip link set $interface11 master $br1
+ip netns exec $namespace11 ip link set $interface12 master $br1
+
+ip netns exec $namespace22 ip link set $interface22 master $br2
+ip netns exec $namespace22 ip link set $interface21 master $br2
+
+#ip netns exec $namespace11 ip addr add $ip_address11 dev $br1
+#ip netns exec $namespace22 ip addr add $ip_address22 dev $br2
+
+#ip netns exec $namespace1 ip route add default via $ip_address11
+#ip netns exec $namespace2 ip route add default via $ip_address22
+
+# #single bridge setup
+# ip link add $interface1 type veth peer name $interface12
+# ip link add $interface2 type veth peer name $interface21
+# ip link set $interface1 netns $namespace1
+# ip link set $interface2 netns $namespace2
+# ip netns exec $namespace1 ip addr add $ip_address1 dev $interface1
+# ip netns exec $namespace2 ip addr add $ip_address2 dev $interface2
+# ip netns exec $namespace1 ip link set dev $interface1 up
+# ip netns exec $namespace2 ip link set dev $interface2 up
+# ip netns exec $namespace1 ip link set lo up
+
+# ip link set $interface12 netns $namespace3
+# ip link set $interface21 netns $namespace3
+
+# ip netns exec $namespace3 ip link set dev $interface12 up
+# ip netns exec $namespace3 ip link set dev $interface21 up
+
+# ip netns exec $namespace3 ip link add name $br0 type bridge
+# ip netns exec $namespace3 ip link set $br0 up
+# ip netns exec $namespace3 ip link set $interface12 master $br0
+# ip netns exec $namespace3 ip link set $interface21 master $br0
 
 
 echo "setting up netns rslv.conf"
-mkdir -p /etc/netns/{$namespace1,$namespace2,$namespace3}
-touch /etc/netns/$namespace{1,2,3}/resolv.conf
+mkdir -p /etc/netns/{$namespace1,$namespace2,$namespace11, $namespace22}
+touch /etc/netns/$namespace{1,2,11,22}/resolv.conf
 #echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
 
 server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
