@@ -239,25 +239,23 @@ ip netns exec $namespace3 ip link set $interface21 master $br0
 echo "setting up netns rslv.conf"
 mkdir -p /etc/netns/{$namespace1,$namespace2,$namespace3}
 touch /etc/netns/$namespace{1,2,3}/resolv.conf
-echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
+#echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
 
-ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ;
-ping_code=$?
+echo $dns_server_ip
+ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ; ping_code=$?
 while [ $ping_code -ne 0 ]
 do
   echo "###pinging server from client failed"
-  ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ;
-  ping_code=$?
+  ip netns exec $namespace1 ping -c 1 $dns_server_ip 2>&1 >/dev/null ; ping_code=$?
   sleep 1
 done
 
 client_ip=`echo $ip_address1 |awk -F '/' '{print $1}'`
-ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ;
-ping_code=$?
+echo $client_ip
+ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ; ping_code=$?
 while [ $ping_code -ne 0 ]
 dp
   echo "###pinging client from server failed"
-  ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ;
-  ping_code=$?
+  ip netns exec $namespace2 ping -c 1 $client_ip 2>&1 >/dev/null ; ping_code=$?
   sleep 1
 done
