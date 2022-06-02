@@ -89,7 +89,6 @@ def get_chrome_options():
     chrome_options.add_argument("--host-resolver-rules=MAP www.localdomain.com:443 "+server_ip+":6121")
     #disable http cache so that the 0-rtt reload actually fetches the complete website again
     chrome_options.add_argument('--disable-http-cache')
-    chrome_options.add_argument('--no-proxy-server')
     #force quic on the website under test
     #alternative: '--origin-to-force-quic-on=*' (the star requires quotes when using this option on the command line)
     chrome_options.add_argument('--origin-to-force-quic-on=www.localdomain.com:443')
@@ -120,7 +119,8 @@ def run_web_performance():
         time.sleep(2)
         performance_metrics_warmup = driver.execute_script(web_perf_script)
         print(performance_metrics_warmup)
-        #driver.save_screenshot(website+" "+msm_id+'-warmup.png')
+        if performance_metrics_warmup['name'] != 'https://www.localdomain.com/':
+            driver.save_screenshot(website+" "+msm_id+'-warmup.png')
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance_warmup: "+str(e))
         insert_lookups()
@@ -141,7 +141,8 @@ def run_web_performance():
         time.sleep(2)
         performance_metrics = driver.execute_script(web_perf_script)
         print(performance_metrics)
-        #driver.save_screenshot(website+" "+msm_id+'.png')
+        if performance_metrics['name'] != 'https://www.localdomain.com/':
+            driver.save_screenshot(website+" "+msm_id+'.png')
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance: "+str(e))
         insert_lookups()
