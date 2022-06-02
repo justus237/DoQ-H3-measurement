@@ -70,6 +70,7 @@ def get_chrome_options():
     chrome_options.add_argument("--no-sandbox")
     #need x forwarding ($DISPLAY) if commented out
     chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-proxy-server')
     #capture netlogs just in case, use timestamp for file name for now
     #chrome_options.add_argument("--net-log-capture-mode=Everything")
     #chrome_options.add_argument('--log-net-log=chrome-netlog-'+timestamp+'-'+experiment_type+'-'+msm_id+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
@@ -121,7 +122,7 @@ def run_web_performance():
         #print(performance_metrics_warmup)
         if 'www.localdomain.com' not in performance_metrics_warmup['name']:
             driver.save_screenshot(website+"-"+experiment_type+'-warmup.png')
-            print('something failed with chrome loading' + website + 'without crashing it')
+            print('something failed with chrome loading ' + website + ' without crashing it')
             print(performance_metrics_warmup['name'])
             insert_measurement(error+"H3_web_performance_warmup chrome error "+performance_metrics_warmup['name'])
             insert_lookups()
@@ -151,7 +152,7 @@ def run_web_performance():
         #print(performance_metrics)
         if 'www.localdomain.com' not in performance_metrics['name']:
             driver.save_screenshot(website+"-"+experiment_type+'.png')
-            print('something failed with chrome loading' + website + 'without crashing it')
+            print('something failed with chrome loading ' + website + ' without crashing it')
             print(performance_metrics['name'])
             insert_measurement(error+"H3_web_performance chrome error "+performance_metrics_warmup['name'])
             insert_lookups()

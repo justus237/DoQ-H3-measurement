@@ -32,7 +32,7 @@ fi
 
 
 
-echo "experiment_type=4g" >> vars
+echo "experiment_type=4g-medium" >> vars
 
 
 
