@@ -18,8 +18,16 @@ if [[ ! -e /var/run/netns/${namespace2} ]]; then
     echo "Could not find network namespace ${namespace2}"
     exit 2
 fi
-if [[ ! -e /var/run/netns/${namespace3} ]]; then
+# if [[ ! -e /var/run/netns/${namespace3} ]]; then
+#     echo "Could not find network namespace ${namespace3}"
+#     exit 2
+# fi
+if [[ ! -e /var/run/netns/${namespace11} ]]; then
     echo "Could not find network namespace ${namespace11}"
+    exit 2
+fi
+if [[ ! -e /var/run/netns/${namespace22} ]]; then
+    echo "Could not find network namespace ${namespace22}"
     exit 2
 fi
 
@@ -55,7 +63,7 @@ upload="0.842152Mbit"
 
 
 #client -> server
-ip netns exec $namespace3 tc qdisc add dev $interface12 root netem delay $rtt $rtt_stdev rate $upload
+ip netns exec $namespace11 tc qdisc add dev $interface12 root netem delay $rtt $rtt_stdev rate $upload
 
 #server -> client
-ip netns exec $namespace3 tc qdisc add dev $interface21 root netem rate $download
+ip netns exec $namespace22 tc qdisc add dev $interface21 root netem rate $download

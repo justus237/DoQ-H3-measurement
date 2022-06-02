@@ -239,7 +239,7 @@ ip netns exec $namespace22 ip link set $interface21 master $br2
 
 
 echo "setting up netns rslv.conf"
-mkdir -p /etc/netns/{$namespace1,$namespace2,$namespace11, $namespace22}
+mkdir -p /etc/netns/{$namespace1,$namespace2,$namespace11,$namespace22}
 touch /etc/netns/$namespace{1,2,11,22}/resolv.conf
 #echo "nameserver 127.0.0.2" | tee /etc/netns/${namespace1}/resolv.conf
 
