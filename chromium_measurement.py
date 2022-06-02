@@ -71,7 +71,7 @@ def get_chrome_options():
     #need x forwarding ($DISPLAY) if commented out
     chrome_options.add_argument('--headless')
     #proxy gets applied anyway, completely useless
-    chrome_options.add_argument('--no-proxy-server')
+    #chrome_options.add_argument('--no-proxy-server')
     #capture netlogs just in case, use timestamp for file name for now
     chrome_options.add_argument("--net-log-capture-mode=Everything")
     chrome_options.add_argument('--log-net-log=chrome-netlog-'+timestamp+'-'+experiment_type+'-'+msm_id+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
@@ -80,6 +80,7 @@ def get_chrome_options():
     #not used anymore but was needed for older youtube measurements
     chrome_options.add_argument("--autoplay-policy=no-user-gesture-required")
 
+    chrome_options.add_argument("--disable-gpu")
     #allows us to skip any CA setup
     chrome_options.add_argument('--ignore-certificate-errors-spki-list='+cert_hash)
     #need to fix it to IETF QUIC v1 because of client session cache serialization, could probably just write h3
@@ -87,6 +88,7 @@ def get_chrome_options():
     #this is probably not needed
     chrome_options.add_argument('--ignore-urlfetcher-cert-requests')
     #take the result we got from name resolution
+    chrome_options.add_argument("--dns-prefetch-disable")
     #if you put quotes anywhere inside this one, it wont pass the argument properly when using selenium
     chrome_options.add_argument("--host-resolver-rules=MAP www.localdomain.com:443 "+server_ip+":6121")
     #disable http cache so that the 0-rtt reload actually fetches the complete website again
