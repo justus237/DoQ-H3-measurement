@@ -63,12 +63,12 @@ upload="10.41276Mbit"
 
 #ip netns exec $namespace1 tc qdisc add dev ptp-$interface1 root netem delay $rtt_half $rtt_var loss $packetloss_half rate $upload
 #upload speed
-ip netns exec $namespace11 tc qdisc add dev $interface12 root handle 1: tbf rate $upload burst $upload_burst latency 1000ms
+ip netns exec $namespace11 tc qdisc add dev $interface12 root handle 1: tbf rate $upload
 #latency to server
 ip netns exec $namespace11 tc qdisc add dev $interface12 parent 1: netem rate 1000mbit delay $rtt $rtt_stdev
 
 #ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root netem delay $rtt_half $rtt_var loss $packetloss_half rate $download
 #download speed
-ip netns exec $namespace22 tc qdisc add dev $interface21 root handle 1: tbf rate $download burst $download_burst latency 1000ms
+ip netns exec $namespace22 tc qdisc add dev $interface21 root handle 1: tbf rate $download
 #latency to client
 #ip netns exec $namespace22 tc qdisc add dev $interface21 parent 1: netem delay $rtt_half $rtt_stdev
