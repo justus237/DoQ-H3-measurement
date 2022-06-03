@@ -49,9 +49,9 @@ echo "experiment_type=fixed" >> vars
 #latency mean: 44.5534ms median: 22.52ms
 #latency stdev: 107.4591ms
 
-rtt_half="22.276 7ms"
-rtt="44.5534 ms"
-rtt_stdev="107.4591 ms"
+rtt_half="22.2767"
+rtt="44.5534"
+rtt_stdev="107.4591"
 
 download="70.54765Mbit"
 upload="10.41276Mbit"
