@@ -51,7 +51,7 @@ echo "experiment_type=fixed" >> vars
 
 rtt_half="100.5ms"
 rtt="1"
-rtt_stdev="1"
+rtt_stdev="10ms"
 
 download="70.54765Mbit"
 upload="10.41276Mbit"
@@ -63,7 +63,7 @@ download_burst="256kb"
 
 
 #client -> server
-ip netns exec $namespace11 tc qdisc add dev $interface12 root netem delay $rtt_half
+ip netns exec $namespace11 tc qdisc add dev $interface12 root netem delay $rtt_half $rtt_stdev
 # $rtt_stdev
 
 #server -> client
