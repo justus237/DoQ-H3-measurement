@@ -49,7 +49,7 @@ echo "experiment_type=fixed" >> vars
 #latency mean: 44.5534ms median: 22.52ms
 #latency stdev: 107.4591ms
 
-rtt_half="1"
+rtt_half="100"
 rtt="1"
 rtt_stdev="1"
 
