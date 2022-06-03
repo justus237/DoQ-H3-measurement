@@ -49,9 +49,9 @@ echo "experiment_type=fixed" >> vars
 #latency mean: 44.5534ms median: 22.52ms
 #latency stdev: 107.4591ms
 
-rtt_half="22.2767ms"
-rtt="44.5534ms"
-rtt_stdev="107.4591ms"
+rtt_half="22.276 7ms"
+rtt="44.5534 ms"
+rtt_stdev="107.4591 ms"
 
 download="70.54765Mbit"
 upload="10.41276Mbit"
@@ -66,7 +66,7 @@ download_burst="256kb"
 #upload speed
 ip netns exec $namespace11 tc qdisc add dev $interface12 root handle 1: tbf rate $upload burst $upload_burst latency 1000ms
 #latency to server
-ip netns exec $namespace11 tc qdisc add dev $interface12 parent 1: netem rate 1000mbit delay $rtt $rtt_stdev
+ip netns exec $namespace11 tc qdisc add dev $interface12 parent 1: netem rate 1000mbit delay ${rtt} ${rtt_stdev}
 
 #ip netns exec $namespace2 tc qdisc add dev ptp-$interface2 root netem delay $rtt_half $rtt_var loss $packetloss_half rate $download
 #download speed
