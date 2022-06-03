@@ -63,7 +63,7 @@ download_burst="256kb"
 
 
 #client -> server
-ip netns exec $namespace11 tc qdisc add dev $interface12 root netem delay $rtt_half $rtt_stdev
+ip netns exec $namespace1 tc qdisc add dev $interface1 root netem delay $rtt_half $rtt_stdev
 
 #server -> client
 #ip netns exec $namespace22 tc qdisc add dev $interface21 root netem rate $download
