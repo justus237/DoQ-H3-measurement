@@ -63,7 +63,7 @@ upload="0.842152Mbit"
 
 
 #client -> server
-ip netns exec $namespace11 tc qdisc add dev $interface12 root netem delay $rtt $rtt_stdev rate $upload
+ip netns exec $namespace11 tc qdisc add dev $interface12 root netem delay $rtt_half rate $upload
 
 #server -> client
-ip netns exec $namespace22 tc qdisc add dev $interface21 root netem rate $download
+ip netns exec $namespace22 tc qdisc add dev $interface21 root netem delay $rtt_half rate $download
