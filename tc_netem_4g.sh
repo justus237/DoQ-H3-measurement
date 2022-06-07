@@ -32,8 +32,8 @@ if [[ ! -e /var/run/netns/${namespace22} ]]; then
 fi
 
 if [[ $experiment_type != "default" ]]; then
-    ip netns pids $namespace1 | xargs kill
-    ip netns pids $namespace2 | xargs kill
+    ip netns pids $namespace1 | xargs -r kill
+    ip netns pids $namespace2 | xargs -r kill
     ip netns exec $namespace11 tc qdisc delete dev $interface12 root
     ip netns exec $namespace22 tc qdisc delete dev $interface21 root
 fi
