@@ -100,7 +100,7 @@ def get_chrome_options():
     #enable quic
     chrome_options.add_argument('--enable-quic')
     #write key log for wireshark later on
-    chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
+    #chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
 
     #chrome_options.binary_location = "/home/quic_net03/chromium/src/out/Default/chrome"
     return chrome_options
@@ -133,6 +133,7 @@ def run_web_performance():
             return
         else:
             print('1-RTT success')
+            print(performance_metrics_warmup['loadEventStart'])
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance_warmup: "+str(e))
         insert_lookups()
@@ -163,6 +164,7 @@ def run_web_performance():
             return
         else:
             print('0-RTT success')
+            print(performance_metrics['loadEventStart'])
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance: "+str(e))
         insert_lookups()

@@ -1,5 +1,7 @@
 # DoQ-H3-measurement
 
+run ```get_websites.sh```, then ```measure.sh```, requires ```../coredns/``` and ```../dnsproxy/``` as well as chromdriver and selenium.
+
 Mainly developed for Ubuntu but would probably work on other distributions.
 
 Network namespaces may not work on all VMs, e.g. Ubuntu 16.04 in VirtualBox did not support virtual ethernet pairs for some reason.

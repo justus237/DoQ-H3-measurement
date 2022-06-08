@@ -57,7 +57,8 @@ download="10.73476Mbit"
 upload="0.842152Mbit"
 
 
-
+#BDP down: 56.8403 kB (kilobytes)
+#BDP up:4.45917 kB (kilobytes)
 
 
 

@@ -57,7 +57,8 @@ download="28.64829771023976Mbit"
 upload="4.224282864079301Mbit"
 
 
-
+#BDP down: 374.233223336939 kB (kilobytes) -> 300K    www.wikipedia.org/
+#BDP up: 55.1818823059196 kB (kilobytes)
 
 
 
