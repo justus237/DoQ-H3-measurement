@@ -73,9 +73,9 @@ def get_chrome_options():
     #proxy gets applied anyway, completely useless
     #chrome_options.add_argument('--no-proxy-server')
     #capture netlogs just in case, use timestamp for file name for now
-    if website == 'www.wikipedia.org':
-        chrome_options.add_argument("--net-log-capture-mode=Everything")
-        chrome_options.add_argument('--log-net-log=chrome-netlog-'+timestamp+'-'+experiment_type+'-'+msm_id+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
+    #if website == 'www.wikipedia.org':
+    #    chrome_options.add_argument("--net-log-capture-mode=Everything")
+    #    chrome_options.add_argument('--log-net-log=chrome-netlog-'+timestamp+'-'+experiment_type+'-'+msm_id+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
 
     chrome_options.add_argument("--disable-dev-shm-usage")
     #not used anymore but was needed for older youtube measurements
@@ -101,8 +101,8 @@ def get_chrome_options():
     #enable quic
     chrome_options.add_argument('--enable-quic')
     #write key log for wireshark later on
-    if website == 'www.wikipedia.org':
-        chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
+    #if website == 'www.wikipedia.org':
+    #    chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
 
     #chrome_options.binary_location = "/home/quic_net03/chromium/src/out/Default/chrome"
     return chrome_options
