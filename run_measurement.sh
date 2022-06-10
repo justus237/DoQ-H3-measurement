@@ -53,7 +53,7 @@ root_dir=$(pwd)
 coredns_path="../coredns"
 dnsproxy_path="../dnsproxy"
 chrome_path="../chromium"
-
+echo $website_under_test
 if [[ $website_under_test == "www.wikipedia.org" ]]; then
   echo "website is wikipedia, starting tcpdump to debug 0-rtt PLTs"
   ip netns exec $namespace1 tcpdump -G 3600 -i any -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
