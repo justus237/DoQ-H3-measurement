@@ -53,6 +53,7 @@ root_dir=$(pwd)
 coredns_path="../coredns"
 dnsproxy_path="../dnsproxy"
 chrome_path="../chromium"
+source website-under-test
 echo $website_under_test
 if [[ $website_under_test == "www.wikipedia.org" ]]; then
   echo "website is wikipedia, starting tcpdump to debug 0-rtt PLTs"
@@ -158,7 +159,6 @@ fi
 
 
 cd $root_dir
-source website-under-test
 echo "running web performance measurement"
 ip netns exec $namespace1 /home/quic_net01/.pyenv/shims/python3 chromium_measurement.py $h3_server_ip $msmID $timestamp $experiment_type $website_under_test $error
 
