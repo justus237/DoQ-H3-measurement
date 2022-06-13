@@ -136,6 +136,8 @@ def run_web_performance():
         else:
             print('1-RTT success')
             print(performance_metrics_warmup['loadEventStart'])
+            if website == 'www.wikipedia.org':
+                driver.save_screenshot(website+"-"+experiment_type+'-warmup-check-if-still-loads.png')
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance_warmup: "+str(e))
         insert_lookups()
