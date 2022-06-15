@@ -75,7 +75,7 @@ https://.:443 {
   errors
   log
   debug
-}" | tee "${coredns_path}/Corefile"
+}" > ${coredns_path}/Corefile
 
 cd $root_dir && cd $coredns_path
 #echo "starting coredns for DoQ udp:8853, DoUDP udp:53 and DoH tcp:443"
