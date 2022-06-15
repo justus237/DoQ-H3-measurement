@@ -18,9 +18,11 @@ if [[ ! -e /var/run/netns/${namespace2} ]]; then
     exit 2
 fi
 
+root_dir=$(pwd)
 coredns_path="../coredns"
 dnsproxy_path="../dnsproxy"
 chrome_path="../chromium"
+source website-under-test
 
 echo "generating Corefile"
 server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
