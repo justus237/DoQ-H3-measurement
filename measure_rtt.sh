@@ -32,4 +32,4 @@ bash ./test_rtt.sh >> tcp_ping_4g.log
 bash ./setup_measurement.sh >> setup.log 2>&1
 bash ./tc_netem_4g_medium.sh
 echo "##4G medium: 104.5041425140391ms"
-bash ./test_rtt.sh >> tcp_ping_4g_medium.log
+bash ./test_rtt.sh >> tcp_ping_4g-medium.log
