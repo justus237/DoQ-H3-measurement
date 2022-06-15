@@ -152,15 +152,19 @@ def run_web_performance():
         return
     insert_web_performance(performance_metrics_warmup, 1)
     time.sleep(30)
-    if website == "www.instagram.com":
-        time.sleep(120)
+    #if website == "www.instagram.com":
+    #    time.sleep(120)
     time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
     #with open('/tmp/chrome_session_cache.txt', 'r') as f:
     #    print(f.read())
     #sleep to wait for session timeout, causing 0-rtt to kick in
     try:
         #driver.refresh()
-        driver.get("https://www.localdomain.com")
+        #driver.get("https://www.localdomain.com")
+        #https://stackoverflow.com/a/68660699
+        driver.execute_script("window.open('https://www.localdomain.com','newtab');")
+        driver.close()
+        driver.switch_to.window("newtab")
         #while driver.execute_script("return document.readyState;") != "complete":
         #        time.sleep(1)
         WebDriverWait(driver, 20, 0.1).until(lambda x: x.execute_script('return document.readyState') == 'complete')
