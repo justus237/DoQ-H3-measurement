@@ -2,11 +2,13 @@ from datetime import datetime
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as chromeOptions
+from selenium.webdriver.chrome.service import Service as chromeService
 from selenium.webdriver.support.ui import WebDriverWait
 import selenium.common.exceptions
 import sys
 import sqlite3
 import re
+import os.path
 #setup
 #need server ip
 try:
@@ -111,7 +113,8 @@ def get_chrome_options():
 
 def run_web_performance():
     chrome_options = get_chrome_options()
-    driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
+    service = chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
+    driver = webdriver.Chrome(service=service, options=chrome_options)#, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
     
     print(timestamp+", "+experiment_type+", "+website+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(15)
@@ -151,15 +154,19 @@ def run_web_performance():
         print(str(e))
         return
     insert_web_performance(performance_metrics_warmup, 1)
-    time.sleep(40)
+    #time.sleep(40)
     #if website == "www.instagram.com":
     #    time.sleep(120)
-    time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
-    #driver.quit()
+    #time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
+    driver.quit()
     #with open('/tmp/chrome_session_cache.txt', 'r') as f:
     #    print(f.read())
+    if not os.path.isfile('/tmp/chrome_session_cache.txt'):
+        print('something went wrong, session cache file doesnt exist')
+        return
     #driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
-    #driver.set_page_load_timeout(15)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver.set_page_load_timeout(15)
 
     #sleep to wait for session timeout, causing 0-rtt to kick in
     try:
