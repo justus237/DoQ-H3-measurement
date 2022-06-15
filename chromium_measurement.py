@@ -153,7 +153,7 @@ def run_web_performance():
     insert_web_performance(performance_metrics_warmup, 1)
     time.sleep(30)
     if website == "www.instagram.com":
-        time.sleep(30)
+        time.sleep(60)
     time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
     #with open('/tmp/chrome_session_cache.txt', 'r') as f:
     #    print(f.read())
