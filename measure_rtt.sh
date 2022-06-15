@@ -5,7 +5,8 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 
-echo "website_under_test=${curr_website}" > website-under-test
+echo "website_under_test=www.example.org" > website-under-test
+
 bash ./setup_measurement.sh >> setup.log 2>&1
 bash ./tc_netem_fixed_dsl.sh
 echo "42.35979ms"
