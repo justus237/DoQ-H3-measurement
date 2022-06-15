@@ -24,7 +24,6 @@ dnsproxy_path="../dnsproxy"
 chrome_path="../chromium"
 source website-under-test
 
-echo "generating Corefile"
 server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
 echo "quic://.:8853 {
   bind ${server_ip}
@@ -86,24 +85,22 @@ sleep 5
 #while [[$(tac coredns.log |egrep -m 1 .) != "[INFO] plugin/DoQ: ServePacket()"]]
 while ! grep -Fxq "[INFO] plugin/DoQ: ServePacket()" $root_dir/coredns.log
 do
-  echo "waiting for coredns to load"
   sleep 1
 done
-echo "coredns finished loading"
 
 
 dns_server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
 
 client_ip=`echo $ip_address1 |awk -F '/' '{print $1}'`
-
+cd $root_dir
 #echo "traceroutes from client to server with first ttl 30"
 #echo "TCP"
 #ip netns exec $namespace1 traceroute -T -f 30 -p 80 $dns_server_ip
 #echo "UDP"
 #ip netns exec $namespace1 traceroute -U -f 30 -p 53 $dns_server_ip
-echo "hping3"
-echo "TCP"
-ip netns exec $namespace1 hping3 -S -c 20 -p 443 $dns_server_ip
+# echo "hping3"
+# echo "TCP"
+ip netns exec $namespace1 hping3 -S -c 20 -p 443 $dns_server_ip 
 #echo "UDP"
 #ip netns exec $namespace1 hping3 --udp -c 1 -p 53 $dns_server_ip
 
