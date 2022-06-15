@@ -123,7 +123,7 @@ sleep 1
 #echo "DoH metrics"
 #grep '^metrics:DoH exchange' $root_dir/dnsproxy-doh.log
 
-
+cd $root_dir && cd $dnsproxy_path
 #echo "starting dnsproxy with DoUDP upstream"
 ip netns exec $namespace1 ./dnsproxy -u "${dns_server_ip}:53" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
 dnsproxyPID=$!

@@ -96,15 +96,15 @@ dns_server_ip=`echo $ip_address2 |awk -F '/' '{print $1}'`
 
 client_ip=`echo $ip_address1 |awk -F '/' '{print $1}'`
 
-echo "traceroutes from client to server with first ttl 30"
-echo "TCP"
-ip netns exec $namespace1 traceroute -T -f 30 -p 80 $dns_server_ip
-echo "UDP"
-ip netns exec $namespace1 traceroute -U -f 30 -p 53 $dns_server_ip
+#echo "traceroutes from client to server with first ttl 30"
+#echo "TCP"
+#ip netns exec $namespace1 traceroute -T -f 30 -p 80 $dns_server_ip
+#echo "UDP"
+#ip netns exec $namespace1 traceroute -U -f 30 -p 53 $dns_server_ip
 echo "hping3"
 echo "TCP"
-ip netns exec $namespace1 hping3 -S -c 1 -p 80 $dns_server_ip
-echo "UDP"
-ip netns exec $namespace1 hping3 --udp -c 1 -p 53 $dns_server_ip
+ip netns exec $namespace1 hping3 -S -c 1 -p 443 $dns_server_ip
+#echo "UDP"
+#ip netns exec $namespace1 hping3 --udp -c 1 -p 53 $dns_server_ip
 
 kill -SIGTERM $corednsPID
