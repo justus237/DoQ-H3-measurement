@@ -57,8 +57,8 @@ source website-under-test
 #echo $website_under_test
 # if [[ $website_under_test == "www.wikipedia.org" ]]; then
 #   echo "website is wikipedia, starting tcpdump to debug 0-rtt PLTs"
-ip netns exec $namespace1 tcpdump -G 3600 -i any -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
-tcpdumpclientPID=$!
+#ip netns exec $namespace1 tcpdump -G 3600 -i any -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
+#tcpdumpclientPID=$!
 # ip netns exec $namespace2 tcpdump -G 3600 -i any -w $root_dir/server-${timestamp}-${experiment_type}-${msmID}.pcap &
 # tcpdumpserverPID=$!
 sleep 5
@@ -169,7 +169,7 @@ ip netns exec $namespace1 /home/quic_net01/.pyenv/shims/python3 chromium_measure
 kill -SIGTERM $corednsPID
 
 # if [[ $website_under_test == "www.wikipedia.org" ]]; then
-kill -SIGINT $tcpdumpclientPID
+#kill -SIGINT $tcpdumpclientPID
 # kill -SIGINT $tcpdumpserverPID
 # fi
 # restart systemd-resolved
