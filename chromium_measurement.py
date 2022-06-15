@@ -105,19 +105,19 @@ def get_chrome_options():
     #if website == 'www.wikipedia.org':
     #    chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
 
-    #chrome_options.binary_location = "/home/quic_net03/chromium/src/out/Default/chrome"
+    #chrome_options.binary_location = "/home/quic_net01/chromium/src/out/Default/chrome"
     return chrome_options
 
 
 def run_web_performance():
     chrome_options = get_chrome_options()
-    driver = webdriver.Chrome(options=chrome_options)#, executable_path='/home/quic_net03/chromium/src/out/Default/chromedriver')
+    driver = webdriver.Chrome(options=chrome_options)#, executable_path='/home/quic_net01/chromium/src/out/Default/chromedriver')
     
     print(timestamp+", "+experiment_type+", "+website+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(15)
 
     #not sure when the best point to set this is...
-    #driver.execute_cdp_cmd("Network.setCacheDisabled", {"cacheDisabled":True})
+    driver.execute_cdp_cmd("Network.setCacheDisabled", {"cacheDisabled":True})
 
     try:
         #driver.get("https://www.example.org")
@@ -160,11 +160,11 @@ def run_web_performance():
     #sleep to wait for session timeout, causing 0-rtt to kick in
     try:
         #driver.refresh()
-        #driver.get("https://www.localdomain.com")
+        driver.get("https://www.localdomain.com")
         #https://stackoverflow.com/a/68660699
-        driver.execute_script("window.open('https://www.localdomain.com','newtab');")
-        driver.close()
-        driver.switch_to.window("newtab")
+        #driver.execute_script("window.open('https://www.localdomain.com','newtab');")
+        #driver.close()
+        #driver.switch_to.window("newtab")
         #while driver.execute_script("return document.readyState;") != "complete":
         #        time.sleep(1)
         WebDriverWait(driver, 20, 0.1).until(lambda x: x.execute_script('return document.readyState') == 'complete')
