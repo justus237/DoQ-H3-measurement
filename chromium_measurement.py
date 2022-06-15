@@ -117,11 +117,12 @@ def run_web_performance():
     driver.set_page_load_timeout(30)
 
     #not sure when the best point to set this is...
-    driver.execute_cdp_cmd("Network.setCacheDisabled", {"cacheDisabled":True})
+    #driver.execute_cdp_cmd("Network.setCacheDisabled", {"cacheDisabled":True})
 
     try:
         #driver.get("https://www.example.org")
         driver.get("https://www.localdomain.com")
+        driver.execute_cdp_cmd("Network.setCacheDisabled", {"cacheDisabled":True})
         #while driver.execute_script("return document.readyState;") != "complete":
         #    time.sleep(1)
         #https://stackoverflow.com/a/14901494
