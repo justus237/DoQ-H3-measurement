@@ -57,11 +57,11 @@ source website-under-test
 #echo $website_under_test
 # if [[ $website_under_test == "www.wikipedia.org" ]]; then
 #   echo "website is wikipedia, starting tcpdump to debug 0-rtt PLTs"
-#   ip netns exec $namespace1 tcpdump -G 3600 -i any -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
-#   tcpdumpclientPID=$!
-#   ip netns exec $namespace2 tcpdump -G 3600 -i any -w $root_dir/server-${timestamp}-${experiment_type}-${msmID}.pcap &
-#   tcpdumpserverPID=$!
-#   sleep 5
+ip netns exec $namespace1 tcpdump -G 3600 -i any -w $root_dir/client-${timestamp}-${experiment_type}-${msmID}.pcap &
+tcpdumpclientPID=$!
+# ip netns exec $namespace2 tcpdump -G 3600 -i any -w $root_dir/server-${timestamp}-${experiment_type}-${msmID}.pcap &
+# tcpdumpserverPID=$!
+sleep 5
 # fi
 
 cd $root_dir && cd $coredns_path
@@ -77,6 +77,9 @@ do
   sleep 1
 done
 echo "coredns finished loading"
+
+cd $root_dir
+ip netns exec $namespace1 hping3 -S -c 1 -p 443 $server_ip | tail -n +2 >> tcp_ping_${experiment_type}.log
 
 #echo "starting dnsproxy with DoQ upstream"
 cd $root_dir && cd $dnsproxy_path
@@ -166,8 +169,8 @@ ip netns exec $namespace1 /home/quic_net01/.pyenv/shims/python3 chromium_measure
 kill -SIGTERM $corednsPID
 
 # if [[ $website_under_test == "www.wikipedia.org" ]]; then
-#   kill -SIGINT $tcpdumpclientPID
-#   kill -SIGINT $tcpdumpserverPID
+kill -SIGINT $tcpdumpclientPID
+# kill -SIGINT $tcpdumpserverPID
 # fi
 # restart systemd-resolved
 #systemctl enable systemd-resolved
