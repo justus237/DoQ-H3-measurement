@@ -103,7 +103,7 @@ client_ip=`echo $ip_address1 |awk -F '/' '{print $1}'`
 #ip netns exec $namespace1 traceroute -U -f 30 -p 53 $dns_server_ip
 echo "hping3"
 echo "TCP"
-ip netns exec $namespace1 hping3 -S -c 1 -p 443 $dns_server_ip
+ip netns exec $namespace1 hping3 -S -c 20 -p 443 $dns_server_ip
 #echo "UDP"
 #ip netns exec $namespace1 hping3 --udp -c 1 -p 53 $dns_server_ip
 
