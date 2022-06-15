@@ -172,6 +172,13 @@ ip netns list
 # #ip netns exec $namespace1 ip addr add 127.0.0.1/8 dev lo
 # ip netns exec $namespace1 ip link set lo up
 
+# ip netns exec $namespace1 sysctl -w net.ipv6.conf.all.disable_ipv6=1
+# ip netns exec $namespace1 sysctl -w net.ipv6.conf.default.disable_ipv6=1
+# ip netns exec $namespace1 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+# ip netns exec $namespace2 sysctl -w net.ipv6.conf.all.disable_ipv6=1
+# ip netns exec $namespace2 sysctl -w net.ipv6.conf.default.disable_ipv6=1
+# ip netns exec $namespace2 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+
 # #two bridge setup
 ip link add $interface1 type veth peer name $interface11
 ip link add $interface2 type veth peer name $interface22
@@ -209,6 +216,20 @@ ip netns exec $namespace11 ip link set $interface12 master $br1
 ip netns exec $namespace22 ip link set $interface22 master $br2
 ip netns exec $namespace22 ip link set $interface21 master $br2
 
+ip netns exec $namespace1 sysctl -w net.ipv6.conf.all.disable_ipv6=1
+ip netns exec $namespace1 sysctl -w net.ipv6.conf.default.disable_ipv6=1
+ip netns exec $namespace1 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+ip netns exec $namespace2 sysctl -w net.ipv6.conf.all.disable_ipv6=1
+ip netns exec $namespace2 sysctl -w net.ipv6.conf.default.disable_ipv6=1
+ip netns exec $namespace2 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+
+ip netns exec $namespace11 sysctl -w net.ipv6.conf.all.disable_ipv6=1
+ip netns exec $namespace11 sysctl -w net.ipv6.conf.default.disable_ipv6=1
+ip netns exec $namespace11 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+ip netns exec $namespace22 sysctl -w net.ipv6.conf.all.disable_ipv6=1
+ip netns exec $namespace22 sysctl -w net.ipv6.conf.default.disable_ipv6=1
+ip netns exec $namespace22 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+
 #ip netns exec $namespace11 ip addr add $ip_address11 dev $br1
 #ip netns exec $namespace22 ip addr add $ip_address22 dev $br2
 
@@ -236,6 +257,16 @@ ip netns exec $namespace22 ip link set $interface21 master $br2
 # ip netns exec $namespace3 ip link set $br0 up
 # ip netns exec $namespace3 ip link set $interface12 master $br0
 # ip netns exec $namespace3 ip link set $interface21 master $br0
+
+# ip netns exec $namespace1 sysctl -w net.ipv6.conf.all.disable_ipv6=1
+# ip netns exec $namespace1 sysctl -w net.ipv6.conf.default.disable_ipv6=1
+# ip netns exec $namespace1 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+# ip netns exec $namespace2 sysctl -w net.ipv6.conf.all.disable_ipv6=1
+# ip netns exec $namespace2 sysctl -w net.ipv6.conf.default.disable_ipv6=1
+# ip netns exec $namespace2 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+# ip netns exec $namespace3 sysctl -w net.ipv6.conf.all.disable_ipv6=1
+# ip netns exec $namespace3 sysctl -w net.ipv6.conf.default.disable_ipv6=1
+# ip netns exec $namespace3 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
 
 
 echo "setting up netns rslv.conf"
