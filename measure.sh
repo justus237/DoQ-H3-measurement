@@ -4,7 +4,7 @@ if [[ $EUID -ne 0 ]]; then
     exit 2
 fi
 
-declare -a websites=("www.instagram.com" "www.example.org" "www.wikipedia.org")
+declare -a websites=("www.example.org" "www.wikipedia.org" "www.instagram.com")
 
 while true
 do
