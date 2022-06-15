@@ -117,7 +117,7 @@ def run_web_performance():
     driver.set_page_load_timeout(15)
 
     #not sure when the best point to set this is...
-    driver.execute_cdp_cmd("Network.setCacheDisabled", {"cacheDisabled":True})
+    #driver.execute_cdp_cmd("Network.setCacheDisabled", {"cacheDisabled":True})
 
     try:
         #driver.get("https://www.example.org")
@@ -151,7 +151,7 @@ def run_web_performance():
         print(str(e))
         return
     insert_web_performance(performance_metrics_warmup, 1)
-    time.sleep(120)
+    time.sleep(330)
     #if website == "www.instagram.com":
     #    time.sleep(120)
     time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
