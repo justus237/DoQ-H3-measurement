@@ -105,13 +105,13 @@ def get_chrome_options():
     #if website == 'www.wikipedia.org':
     #    chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
 
-    #chrome_options.binary_location = "/home/quic_net01/chromium/src/out/Default/chrome"
+    chrome_options.binary_location = "/home/quic_net01/chromium/src/out/Default/chrome"
     return chrome_options
 
 
 def run_web_performance():
     chrome_options = get_chrome_options()
-    driver = webdriver.Chrome(options=chrome_options)#, executable_path='/home/quic_net01/chromium/src/out/Default/chromedriver')
+    driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net01/chromium/src/out/Default/chromedriver')
     
     print(timestamp+", "+experiment_type+", "+website+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(15)
@@ -151,20 +151,24 @@ def run_web_performance():
         print(str(e))
         return
     insert_web_performance(performance_metrics_warmup, 1)
-    time.sleep(330)
+    #time.sleep(330)
     #if website == "www.instagram.com":
     #    time.sleep(120)
-    time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
-    #with open('/tmp/chrome_session_cache.txt', 'r') as f:
-    #    print(f.read())
+    #time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
+    driver.quit()
+    with open('/tmp/chrome_session_cache.txt', 'r') as f:
+        print(f.read())
+    driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net01/chromium/src/out/Default/chromedriver')
+    driver.set_page_load_timeout(15)
+
     #sleep to wait for session timeout, causing 0-rtt to kick in
     try:
         #driver.refresh()
-        #driver.get("https://www.localdomain.com")
+        driver.get("https://www.localdomain.com")
         #https://stackoverflow.com/a/68660699
-        driver.execute_script("window.open('https://www.localdomain.com','newtab');")
-        driver.close()
-        driver.switch_to.window("newtab")
+        #driver.execute_script("window.open('https://www.localdomain.com','newtab');")
+        #driver.close()
+        #driver.switch_to.window("newtab")
         #while driver.execute_script("return document.readyState;") != "complete":
         #        time.sleep(1)
         WebDriverWait(driver, 20, 0.1).until(lambda x: x.execute_script('return document.readyState') == 'complete')
