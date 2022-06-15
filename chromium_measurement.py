@@ -159,7 +159,8 @@ def run_web_performance():
     #    print(f.read())
     #sleep to wait for session timeout, causing 0-rtt to kick in
     try:
-        driver.refresh()
+        #driver.refresh()
+        driver.get("https://www.localdomain.com")
         #while driver.execute_script("return document.readyState;") != "complete":
         #        time.sleep(1)
         WebDriverWait(driver, 20, 0.1).until(lambda x: x.execute_script('return document.readyState') == 'complete')
