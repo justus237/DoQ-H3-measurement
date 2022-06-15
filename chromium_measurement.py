@@ -151,15 +151,15 @@ def run_web_performance():
         print(str(e))
         return
     insert_web_performance(performance_metrics_warmup, 1)
-    #time.sleep(330)
+    time.sleep(40)
     #if website == "www.instagram.com":
     #    time.sleep(120)
-    #time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
-    driver.quit()
-    with open('/tmp/chrome_session_cache.txt', 'r') as f:
-        print(f.read())
-    driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
-    driver.set_page_load_timeout(15)
+    time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
+    #driver.quit()
+    #with open('/tmp/chrome_session_cache.txt', 'r') as f:
+    #    print(f.read())
+    #driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
+    #driver.set_page_load_timeout(15)
 
     #sleep to wait for session timeout, causing 0-rtt to kick in
     try:
