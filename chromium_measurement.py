@@ -160,11 +160,11 @@ def run_web_performance():
     #sleep to wait for session timeout, causing 0-rtt to kick in
     try:
         #driver.refresh()
-        driver.get("https://www.localdomain.com")
+        #driver.get("https://www.localdomain.com")
         #https://stackoverflow.com/a/68660699
-        #driver.execute_script("window.open('https://www.localdomain.com','newtab');")
-        #driver.close()
-        #driver.switch_to.window("newtab")
+        driver.execute_script("window.open('https://www.localdomain.com','newtab');")
+        driver.close()
+        driver.switch_to.window("newtab")
         #while driver.execute_script("return document.readyState;") != "complete":
         #        time.sleep(1)
         WebDriverWait(driver, 20, 0.1).until(lambda x: x.execute_script('return document.readyState') == 'complete')
