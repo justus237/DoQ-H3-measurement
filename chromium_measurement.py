@@ -151,7 +151,7 @@ def run_web_performance():
         print(str(e))
         return
     insert_web_performance(performance_metrics_warmup, 1)
-    time.sleep(50)
+    time.sleep(240)
     #if website == "www.instagram.com":
     #    time.sleep(120)
     time.sleep(performance_metrics_warmup['loadEventEnd']/1000)
