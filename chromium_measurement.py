@@ -112,9 +112,9 @@ def get_chrome_options():
 
 
 def run_web_performance():
-    chrome_options = get_chrome_options()
-    service = chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
-    driver = webdriver.Chrome(service=service, options=chrome_options)#, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
+    #chrome_options = get_chrome_options()
+    #service = chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
+    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options())#, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
     
     print(timestamp+", "+experiment_type+", "+website+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(15)
@@ -165,7 +165,8 @@ def run_web_performance():
         print('something went wrong, session cache file doesnt exist')
         return
     #driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    #driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options())
     driver.set_page_load_timeout(15)
 
     #sleep to wait for session timeout, causing 0-rtt to kick in
