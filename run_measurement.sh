@@ -86,6 +86,7 @@ cd $root_dir && cd $dnsproxy_path
 ip netns exec $namespace1 ./dnsproxy -u "quic://${dns_server_ip}:8853" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
 dnsproxyPID=$!
 #echo "DoQ: running dig"
+sleep 2
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.localdomain.com | tail -n1)
 #echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
 if [[ $h3_server_ip != $server_ip ]]; then
@@ -109,6 +110,7 @@ cd $root_dir && cd $dnsproxy_path
 ip netns exec $namespace1 ./dnsproxy -u "https://${dns_server_ip}:443/dns-query" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
 dnsproxyPID=$!
 #echo "DoH: running dig"
+sleep 2
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.localdomain.com | tail -n1)
 #echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
 if [[ $h3_server_ip != $server_ip ]]; then
@@ -131,6 +133,7 @@ cd $root_dir && cd $dnsproxy_path
 ip netns exec $namespace1 ./dnsproxy -u "${dns_server_ip}:53" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
 dnsproxyPID=$!
 #echo "DoUDP: running dig"
+sleep 2
 h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.localdomain.com | tail -n1)
 #echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
 if [[ $h3_server_ip != $server_ip ]]; then
