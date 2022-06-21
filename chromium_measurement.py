@@ -9,6 +9,7 @@ import sys
 import sqlite3
 import re
 import os.path
+import os
 #setup
 #need server ip
 try:
@@ -66,7 +67,10 @@ web_perf_script = """
             return resultJson;
             """
 #timestamp = datetime.now()
-def get_chrome_options():
+def get_chrome_options(is_warmup):
+    warmup_str = '-actual-msm'
+    if is_warmup:
+        warmup_str = '-warmup'
     chrome_options = chromeOptions()
     #required to run as sudo
     chrome_options.add_argument("--no-sandbox")
@@ -76,8 +80,8 @@ def get_chrome_options():
     #chrome_options.add_argument('--no-proxy-server')
     #capture netlogs just in case, use timestamp for file name for now
     #if website == 'www.wikipedia.org':
-    #    chrome_options.add_argument("--net-log-capture-mode=Everything")
-    #    chrome_options.add_argument('--log-net-log=chrome-netlog-'+timestamp+'-'+experiment_type+'-'+msm_id+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
+    chrome_options.add_argument("--net-log-capture-mode=Everything")
+    chrome_options.add_argument('--log-net-log=chrome-netlog-'+website+'-'+timestamp+'-'+experiment_type+'-'+msm_id+'-'+warmup_str+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
 
     chrome_options.add_argument("--disable-dev-shm-usage")
     #not used anymore but was needed for older youtube measurements
@@ -105,7 +109,7 @@ def get_chrome_options():
     chrome_options.add_argument('--enable-quic')
     #write key log for wireshark later on
     #if website == 'www.wikipedia.org':
-    #    chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
+    chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log'+warmup_str+'.txt')
 
     chrome_options.binary_location = "/home/quic_net01/justus/chromium/src/out/Default/chrome"
     return chrome_options
@@ -114,7 +118,7 @@ def get_chrome_options():
 def run_web_performance():
     #chrome_options = get_chrome_options()
     #service = chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
-    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options())#, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
+    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options(1))#, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
     
     print(timestamp+", "+experiment_type+", "+website+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(15)
@@ -166,7 +170,7 @@ def run_web_performance():
         return
     #driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
     #driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options())
+    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options(0))
     driver.set_page_load_timeout(15)
 
     #sleep to wait for session timeout, causing 0-rtt to kick in
