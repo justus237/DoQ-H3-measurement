@@ -109,7 +109,7 @@ def get_chrome_options(is_warmup):
     chrome_options.add_argument('--enable-quic')
     #write key log for wireshark later on
     #if website == 'www.wikipedia.org':
-    chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log'+warmup_str+'.txt')
+    chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
 
     chrome_options.binary_location = "/home/quic_net01/justus/chromium/src/out/Default/chrome"
     return chrome_options
