@@ -148,7 +148,12 @@ def run_web_performance():
             return
         else:
             print('1-RTT success')
+            print('PLT')
             print(performance_metrics_warmup['loadEventStart'])
+            print('Connect duration')
+            print(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['connectStart'])
+            print('Secure connect duration')
+            print(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['secureConnectionStart'])
             #if website == 'www.wikipedia.org':
             #    driver.save_screenshot(timestamp+"-"+website+"-"+experiment_type+'-warmup-check-if-still-loads-properly.png')
     except selenium.common.exceptions.WebDriverException as e:
@@ -198,7 +203,12 @@ def run_web_performance():
             return
         else:
             print('0-RTT success')
+            print('PLT')
             print(performance_metrics['loadEventStart'])
+            print('Connect duration')
+            print(performance_metrics['connectEnd']-performance_metrics['connectStart'])
+            print('Secure connect duration')
+            print(performance_metrics['connectEnd']-performance_metrics['secureConnectionStart'])
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance: "+str(e))
         insert_lookups()
