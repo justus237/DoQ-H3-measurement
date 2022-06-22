@@ -10,7 +10,6 @@ import sqlite3
 import re
 import os.path
 import os
-import csv
 #setup
 #need server ip
 try:
@@ -68,10 +67,10 @@ web_perf_script = """
             return resultJson;
             """
 #timestamp = datetime.now()
-def get_chrome_options(is_warmup):
-    warmup_str = '-actual-msm'
-    if is_warmup:
-        warmup_str = '-warmup'
+def get_chrome_options():
+    #warmup_str = '-actual-msm'
+    #if is_warmup:
+    #    warmup_str = '-warmup'
     chrome_options = chromeOptions()
     #required to run as sudo
     chrome_options.add_argument("--no-sandbox")
@@ -81,8 +80,8 @@ def get_chrome_options(is_warmup):
     #chrome_options.add_argument('--no-proxy-server')
     #capture netlogs just in case, use timestamp for file name for now
     #if website == 'www.wikipedia.org':
-    chrome_options.add_argument("--net-log-capture-mode=Everything")
-    chrome_options.add_argument('--log-net-log=chrome-netlog-'+website+'-'+timestamp+'-'+experiment_type+'-'+msm_id+'-'+warmup_str+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
+    #chrome_options.add_argument("--net-log-capture-mode=Everything")
+    #chrome_options.add_argument('--log-net-log=chrome-netlog-'+website+'-'+timestamp+'-'+experiment_type+'-'+msm_id+'-'+warmup_str+'.json')#.strftime("%y-%m-%d-%H:%M:%S")+'.json')
 
     chrome_options.add_argument("--disable-dev-shm-usage")
     #not used anymore but was needed for older youtube measurements
@@ -110,23 +109,23 @@ def get_chrome_options(is_warmup):
     chrome_options.add_argument('--enable-quic')
     #write key log for wireshark later on
     #if website == 'www.wikipedia.org':
-    chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
+    #chrome_options.add_argument('--ssl-key-log-file='+msm_id+'-ssl_key_log.txt')
 
     chrome_options.binary_location = "/home/quic_net01/justus/chromium/src/out/Default/chrome"
     return chrome_options
 
 
 def run_web_performance():
-    csv_out_list=[]
+    #csv_out_list=[]
     #chrome_options = get_chrome_options()
     #service = chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
-    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options(1))#, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
+    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options())#, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
     
     print(timestamp+", "+experiment_type+", "+website+", "+msm_id+": server cert: "+cert_hash+" on "+server_ip+", client chromium version: "+driver.capabilities['browserVersion'])
     driver.set_page_load_timeout(15)
-    csv_out_list.append(msm_id)
-    csv_out_list.append(website)
-    csv_out_list.append(experiment_type)
+    #csv_out_list.append(msm_id)
+    #csv_out_list.append(website)
+    #csv_out_list.append(experiment_type)
     #not sure when the best point to set this is...
     #driver.execute_cdp_cmd("Network.setCacheDisabled", {"cacheDisabled":True})
 
@@ -152,15 +151,15 @@ def run_web_performance():
             return
         else:
             print('1-RTT success')
-            print('PLT')
+            #print('PLT')
             print(performance_metrics_warmup['loadEventStart'])
-            csv_out_list.append(performance_metrics_warmup['loadEventStart'])
-            print('Connect duration')
-            print(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['connectStart'])
-            csv_out_list.append(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['connectStart'])
-            print('Secure connect duration')
-            print(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['secureConnectionStart'])
-            csv_out_list.append(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['secureConnectionStart'])
+            #csv_out_list.append(performance_metrics_warmup['loadEventStart'])
+            #print('Connect duration')
+            #print(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['connectStart'])
+            #csv_out_list.append(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['connectStart'])
+            #print('Secure connect duration')
+            #print(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['secureConnectionStart'])
+            #csv_out_list.append(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['secureConnectionStart'])
             #if website == 'www.wikipedia.org':
             #    driver.save_screenshot(timestamp+"-"+website+"-"+experiment_type+'-warmup-check-if-still-loads-properly.png')
     except selenium.common.exceptions.WebDriverException as e:
@@ -182,7 +181,7 @@ def run_web_performance():
         return
     #driver = webdriver.Chrome(options=chrome_options, executable_path='/home/quic_net01/justus/chromium/src/out/Default/chromedriver')
     #driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options(0))
+    driver = webdriver.Chrome(service=chromeService('/home/quic_net01/justus/chromium/src/out/Default/chromedriver'), options=get_chrome_options())
     driver.set_page_load_timeout(15)
 
     #sleep to wait for session timeout, causing 0-rtt to kick in
@@ -210,15 +209,15 @@ def run_web_performance():
             return
         else:
             print('0-RTT success')
-            print('PLT')
+            #print('PLT')
             print(performance_metrics['loadEventStart'])
-            csv_out_list.append(performance_metrics['loadEventStart'])
-            print('Connect duration')
-            print(performance_metrics['connectEnd']-performance_metrics['connectStart'])
-            csv_out_list.append(performance_metrics['connectEnd']-performance_metrics['connectStart'])
-            print('Secure connect duration')
-            print(performance_metrics['connectEnd']-performance_metrics['secureConnectionStart'])
-            csv_out_list.append(performance_metrics['connectEnd']-performance_metrics['secureConnectionStart'])
+            #csv_out_list.append(performance_metrics['loadEventStart'])
+            #print('Connect duration')
+            #print(performance_metrics['connectEnd']-performance_metrics['connectStart'])
+            #csv_out_list.append(performance_metrics['connectEnd']-performance_metrics['connectStart'])
+            #print('Secure connect duration')
+            #print(performance_metrics['connectEnd']-performance_metrics['secureConnectionStart'])
+            #csv_out_list.append(performance_metrics['connectEnd']-performance_metrics['secureConnectionStart'])
     except selenium.common.exceptions.WebDriverException as e:
         insert_measurement(error+"H3_web_performance: "+str(e))
         insert_lookups()
@@ -230,9 +229,9 @@ def run_web_performance():
     insert_measurement(error+"")
     insert_lookups()
 
-    with open('quic_connect_times_and_plt.csv', 'a') as f:
-        writer = csv.writer(f)
-        writer.writerow(csv_out_list)
+    #with open('quic_connect_times_and_plt.csv', 'a') as f:
+    #    writer = csv.writer(f)
+    #    writer.writerow(csv_out_list)
     
 
 db = sqlite3.connect("web-performance.db")
