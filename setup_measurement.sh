@@ -116,7 +116,6 @@ echo "quic://.:8853 {
   }
   hosts {
     ${server_ip} www.localdomain.com
-    reload 1h
   }
   h3server ${website_under_test}/ ${server_ip}:6121
   errors
@@ -128,7 +127,6 @@ echo "quic://.:8853 {
   bind ${server_ip}
   hosts {
     ${server_ip} www.localdomain.com
-    reload 1h
   }
   errors
   log
@@ -142,7 +140,6 @@ https://.:443 {
   }
   hosts {
     ${server_ip} www.localdomain.com
-    reload 1h
   }
   errors
   log
