@@ -97,61 +97,12 @@ fi
 #echo "killing dnsproxy ${dnsproxyPID}"
 kill -SIGTERM $dnsproxyPID
 sleep 2
-cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq-warmup.log
-echo -n > $root_dir/dnsproxy.log
-sleep 1
-
-echo "DoQ warmup metrics"
-grep --text '^metrics:DoQ exchange' $root_dir/dnsproxy-doq-warmup.log
-
-
-
-
-cd $root_dir && cd $dnsproxy_path
-ip netns exec $namespace1 ./dnsproxy -u "quic://${dns_server_ip}:8853" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
-dnsproxyPID=$!
-#echo "DoQ: running dig"
-sleep 2
-h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.localdomain.com | tail -n1)
-#echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
-if [[ $h3_server_ip != $server_ip ]]; then
-  error="${error},DoQ: ${h3_server_ip}"
-fi
-
-
-#echo "killing dnsproxy ${dnsproxyPID}"
-kill -SIGTERM $dnsproxyPID
-sleep 2
 cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doq.log
 echo -n > $root_dir/dnsproxy.log
 sleep 1
 
-echo "DoQ metrics"
-grep --text '^metrics:DoQ exchange' $root_dir/dnsproxy-doq.log
-
-
-cd $root_dir && cd $dnsproxy_path
-#echo "starting dnsproxy with DoH upstream"
-ip netns exec $namespace1 ./dnsproxy -u "https://${dns_server_ip}:443/dns-query" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
-dnsproxyPID=$!
-#echo "DoH: running dig"
-sleep 2
-h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.localdomain.com | tail -n1)
-#echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
-if [[ $h3_server_ip != $server_ip ]]; then
-  error="${error},DoH: ${h3_server_ip}"
-fi
-
-
-#echo "killing dnsproxy ${dnsproxyPID}"
-kill -SIGTERM $dnsproxyPID
-sleep 2
-cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh-warmup.log
-echo -n > $root_dir/dnsproxy.log
-sleep 1
-
-echo "DoH warmup metrics"
-grep '^metrics:DoH exchange' $root_dir/dnsproxy-doh-warmup.log
+#echo "DoQ metrics"
+#grep --text '^metrics:DoQ exchange' $root_dir/dnsproxy-doq.log
 
 
 cd $root_dir && cd $dnsproxy_path
@@ -174,31 +125,8 @@ cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doh.log
 echo -n > $root_dir/dnsproxy.log
 sleep 1
 
-echo "DoH metrics"
-grep '^metrics:DoH exchange' $root_dir/dnsproxy-doh.log
-
-
-cd $root_dir && cd $dnsproxy_path
-#echo "starting dnsproxy with DoUDP upstream"
-ip netns exec $namespace1 ./dnsproxy -u "${dns_server_ip}:53" -v --insecure --ipv6-disabled -l 127.0.0.2 >& $root_dir/dnsproxy.log &
-dnsproxyPID=$!
-#echo "DoUDP: running dig"
-sleep 2
-h3_server_ip=$(ip netns exec $namespace1 dig @127.0.0.2 +short www.localdomain.com | tail -n1)
-#echo "dig result: www.localdomain.com. IN A ${h3_server_ip}"
-if [[ $h3_server_ip != $server_ip ]]; then
-  error="${error},DoUDP: ${h3_server_ip}"
-fi
-
-#echo "killing dnsproxy ${dnsproxyPID}"
-kill -SIGTERM $dnsproxyPID
-sleep 2
-cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp-warmup.log
-echo -n > $root_dir/dnsproxy.log
-sleep 1
-
-echo "DoUDP warmup metrics"
-grep '^metrics:DoUDP exchange' $root_dir/dnsproxy-doudp-warmup.log
+#echo "DoH metrics"
+#grep '^metrics:DoH exchange' $root_dir/dnsproxy-doh.log
 
 cd $root_dir && cd $dnsproxy_path
 #echo "starting dnsproxy with DoUDP upstream"
@@ -219,8 +147,8 @@ cp $root_dir/dnsproxy.log $root_dir/dnsproxy-doudp.log
 echo -n > $root_dir/dnsproxy.log
 sleep 1
 
-echo "DoUDP metrics"
-grep '^metrics:DoUDP exchange' $root_dir/dnsproxy-doudp.log
+#echo "DoUDP metrics"
+#grep '^metrics:DoUDP exchange' $root_dir/dnsproxy-doudp.log
 
 
 if [[ $error != "" ]]; then
