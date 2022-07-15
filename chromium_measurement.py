@@ -154,7 +154,7 @@ def run_web_performance():
             print('1-RTT success')
             #print('PLT')
             print(performance_metrics_warmup['loadEventStart'])
-            if website == 'www.instagran.com':
+            if website == 'www.instagram.com':
                 driver.save_screenshot(website+"-"+experiment_type+'-actual-msm.png')
             resource_timings = driver.execute_script(script_get_resource_timing)
             for resource in resource_timings:
