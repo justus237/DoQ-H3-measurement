@@ -155,7 +155,8 @@ def run_web_performance():
             #print('PLT')
             print(performance_metrics_warmup['loadEventStart'])
             resource_timings = driver.execute_script(script_get_resource_timing)
-            print(resource_timings)
+            for resource in resource_timings:
+                print(resource['name']+': enc'+str(resource['encodedBodySize']) + ', dec' + str(resource['decodedBodySize']))
             #csv_out_list.append(performance_metrics_warmup['loadEventStart'])
             #print('Connect duration')
             #print(performance_metrics_warmup['connectEnd']-performance_metrics_warmup['connectStart'])
@@ -215,7 +216,8 @@ def run_web_performance():
             #print('PLT')
             print(performance_metrics['loadEventStart'])
             resource_timings = driver.execute_script(script_get_resource_timing)
-            print(resource_timings)
+            for resource in resource_timings:
+                print(resource['name']+': enc'+str(resource['encodedBodySize']) + ', dec' + str(resource['decodedBodySize']))
             #csv_out_list.append(performance_metrics['loadEventStart'])
             #print('Connect duration')
             #print(performance_metrics['connectEnd']-performance_metrics['connectStart'])

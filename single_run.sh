@@ -3,8 +3,8 @@ if [[ $EUID -ne 0 ]]; then
     echo "$0 is not running as root. Try using sudo."
     exit 2
 fi
-#"www.example.org" "www.wikipedia.org" 
-declare -a websites=("www.instagram.com")
+#"www.example.org"
+declare -a websites=("www.wikipedia.org"  "www.instagram.com")
 
 
 for curr_website in "${websites[@]}"
