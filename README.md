@@ -1,6 +1,8 @@
 # DoQ-H3-measurement
 
-run ```get_websites.sh```, then ```measure.sh```, requires ```../coredns/``` (https://github.com/justus237/coredns) and ```../dnsproxy/``` (https://github.com/justus237/dnsproxy) as well as chromedriver and selenium.
+Requires ```../coredns/``` (https://github.com/justus237/coredns) and ```../dnsproxy/``` (https://github.com/justus237/dnsproxy) as well as chromedriver and selenium.
+
+Run ```get_websites.sh```, then ```measure.sh```.
 
 `measure.sh` will run
   - `setup_measurement.sh`, which generates the configuration file, certificate and session ticket encryption key for `coredns` and sets up all the namespaces and connections between them,
