@@ -1,6 +1,6 @@
 # DoQ-H3-measurement
 
-Requires ```../coredns/``` (https://github.com/justus237/coredns) and ```../dnsproxy/``` (https://github.com/justus237/dnsproxy) as well as `chromium` (https://github.com/justus237/chromium), `chromedriver` (https://github.com/justus237/chromium) and selenium.
+Requires ```../coredns/``` (https://github.com/justus237/coredns) and ```../dnsproxy/``` (https://github.com/justus237/dnsproxy) as well as `chromium` (https://github.com/justus237/chromium), `chromedriver` (https://github.com/justus237/chromium) and `selenium` (>= 4.0.0).
 
 Run ```get_websites.sh```, then ```measure.sh```.
 
